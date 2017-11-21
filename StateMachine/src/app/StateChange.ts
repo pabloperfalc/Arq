@@ -3,8 +3,8 @@ export class StateChange{
     nextState:String;
     input:String;
     output:String;
-    stateBits:boolean[];
-    nextStateBits:boolean[];
-    inputBits:boolean[];
-    outputBits:boolean[];
+    stateBits:string[];//boolean[];
+    nextStateBits:string[];//boolean[];
+    inputBits:string[];//boolean[];
+    outputBits:string[];//boolean[];
 }

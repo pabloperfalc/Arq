@@ -3,6 +3,7 @@ import * as go from 'gojs';
 import { SelectItem } from 'primeng/components/common/selectitem';
 import { StateChange } from './StateChange';
 import { debug } from 'util';
+import { State } from './State';
 
 
 @Component({
@@ -11,21 +12,78 @@ import { debug } from 'util';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'My First GoJS App in Angular';
-  
-  public model:go.GraphLinksModel;
-  public displayDialog: boolean;
+  title = 'Maquinas de estado';
 
+  // States
+  public displayDialogState: boolean;
+  public state: State = new State();
+  public newState:boolean;
+  public selectedState:State;
+  public states: SelectItem[];
+
+  showDialogToAddState() {
+    this.newState = true;
+    this.displayDialogState = true;
+    this.state = new State();
+  }
+
+  saveState() {
+
+    debugger;
+    let states = [...this.states];
+    if(this.newState){
+      this.state.label = this.state.value;
+      states.push(this.state);
+    }
+    else
+    {
+      this.state.label = this.state.value;
+      states[this.findSelectedStateIndex()] = this.state;
+    }
+
+    this.states = states;
+    this.state = null;
+    this.displayDialogState = false;
+  }
+
+  findSelectedStateIndex(): number {
+    return this.states.indexOf(this.selectedState);
+  }
+
+  deleteState() {
+    let index = this.findSelectedStateIndex();
+    this.states = this.states.filter((val,i) => i!=index);
+    this.state = null;
+    this.displayDialogState = false;
+  }  
+
+  onRowSelectState(event) {
+    this.newState = false;
+    this.state = this.cloneState(event.data);
+    this.displayDialogState = true;
+  }
+  
+  cloneState(c: State): State {
+    let state = new State();
+    for(let prop in c) {
+      state[prop] = c[prop];
+    }
+    return state;
+  }
+  // States
+
+
+
+  // State Changes
+  public displayDialogStateChange: boolean;
   public stateChange: StateChange = new StateChange();
   public newStateChange:boolean;
   public stateChanges:StateChange[];
-  public states: SelectItem[];
-  public inputs: SelectItem[];
-  public outputs: SelectItem[];
+  public selectedStateChange:StateChange;
 
-  showDialogToAdd() {
+  showDialogToAddStateChange() {
     this.newStateChange = true;
-    this.displayDialog = true;
+    this.displayDialogStateChange = true;
     this.stateChange = new StateChange();
     this.stateChange.state = this.states[0].value;
     this.stateChange.input = this.inputs[0].value;
@@ -33,33 +91,59 @@ export class AppComponent {
     this.stateChange.nextState = this.states[0].value;
   }
 
-  save() {
+  saveStateChange() {
     let stateChanges = [...this.stateChanges];
     
     if(this.newStateChange){
-      this.stateChange.stateBits = (this.states.findIndex( s => s.value == this.stateChange.state).toString(2).padStart(this.states.length,"0").split('').map(x => x === '1'));
-      this.stateChange.inputBits = (this.inputs.findIndex( s => s.value == this.stateChange.input).toString(2).padStart(this.inputs.length,"0").split('').map(x => x === '1'));
-      this.stateChange.nextStateBits = (this.states.findIndex( s => s.value == this.stateChange.nextState).toString(2).padStart(this.states.length,"0").split('').map(x => x === '1'));
-      this.stateChange.outputBits = (this.outputs.findIndex( s => s.value == this.stateChange.output).toString(2).padStart(this.outputs.length,"0").split('').map(x => x === '1'));
+      this.stateChange.stateBits = (this.states.findIndex( s => s.value == this.stateChange.state).toString(2).padStart(this.states.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.inputBits = (this.inputs.findIndex( s => s.value == this.stateChange.input).toString(2).padStart(this.inputs.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.nextStateBits = (this.states.findIndex( s => s.value == this.stateChange.nextState).toString(2).padStart(this.states.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.outputBits = (this.outputs.findIndex( s => s.value == this.stateChange.output).toString(2).padStart(this.outputs.length,"0").split(''));//.map(x => x === '1'));
       stateChanges.push(this.stateChange);
     }
-    // else
-      //this.stateChanges[this.findSelectedCarIndex()] = this.car;
-    
+    else
+    {
+      stateChanges[this.findSelectedStateChangeIndex()] = this.stateChange;
+    }
+
     this.stateChanges = stateChanges;
     this.stateChange = null;
-    this.displayDialog = false;
-}
+    this.displayDialogStateChange = false;
+  }
+
+  findSelectedStateChangeIndex(): number {
+    return this.stateChanges.indexOf(this.selectedStateChange);
+  }
+
+  deleteStateChange() {
+    let index = this.findSelectedStateChangeIndex();
+    this.stateChanges = this.stateChanges.filter((val,i) => i!=index);
+    this.stateChange = null;
+    this.displayDialogStateChange = false;
+  }  
+
+  onRowSelect(event) {
+    this.newStateChange = false;
+    this.stateChange = this.cloneStateChange(event.data);
+    this.displayDialogStateChange = true;
+  }
   
+  cloneStateChange(c: StateChange): StateChange {
+    let stateChange = new StateChange();
+    for(let prop in c) {
+      stateChange[prop] = c[prop];
+    }
+    return stateChange;
+  }
+  // State Changes
+
+  public model:go.GraphLinksModel;
+  public inputs: SelectItem[];
+  public outputs: SelectItem[];
   
   ngOnInit() {
     this.stateChanges = [];
-    this.states = [
-      {label:'A', value:'A'},
-      {label:'B', value:'B'},
-      {label:'C', value:'C'},
-      {label:'D', value:'D'},
-    ];
+    this.states = [];
 
     this.inputs = [
       {label:'A', value:'A'},
