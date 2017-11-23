@@ -4,6 +4,8 @@ import { SelectItem } from 'primeng/components/common/selectitem';
 import { StateChange } from './StateChange';
 import { debug } from 'util';
 import { State } from './State';
+import { Input } from './Input';
+import { Output } from './Output';
 
 
 @Component({
@@ -13,6 +15,121 @@ import { State } from './State';
 })
 export class AppComponent {
   title = 'Maquinas de estado';
+
+//outputs
+
+public displayDialogOutput: boolean;
+public output: Output = new Output();
+public newOutput:boolean;
+public selectedOutput:Output;
+public outputs: Output[];
+
+showDialogToAddOutput() {
+  this.newOutput = true;
+  this.displayDialogOutput = true;
+  this.output = new Output();
+}
+
+saveOutput() {
+  let outputs = [...this.outputs];
+  if(this.newOutput){
+    this.output.label = this.output.value;
+    outputs.push(this.output);
+  }
+  else
+  {
+    this.output.label = this.output.value;
+    outputs[this.findSelectedOutputIndex()] = this.output;
+  }
+
+  this.outputs = outputs;
+  this.output = null;
+  this.displayDialogOutput = false;
+}
+
+findSelectedOutputIndex(): number {
+  return this.outputs.indexOf(this.selectedOutput);
+}
+
+deleteOutput() {
+  let index = this.findSelectedOutputIndex();
+  this.outputs = this.outputs.filter((val,i) => i!=index);
+  this.output = null;
+  this.displayDialogOutput = false;
+}  
+
+onRowSelectOutput(event) {
+  this.newOutput = false;
+  this.output = this.cloneOutput(event.data);
+  this.displayDialogOutput = true;
+}
+
+cloneOutput(c: Output): Output {
+  let output = new Output();
+  for(let prop in c) {
+    output[prop] = c[prop];
+  }
+  return output;
+}
+// Outputs
+
+
+
+  //Inputs
+  public displayDialogInput: boolean;
+  public input: Input = new Input();
+  public newInput:boolean;
+  public selectedInput:Input;
+  public inputs: Input[];
+
+  showDialogToAddInput() {
+    this.newInput = true;
+    this.displayDialogInput = true;
+    this.input = new Input();
+  }
+
+  saveInput() {
+    let inputs = [...this.inputs];
+    if(this.newInput){
+      this.input.label = this.input.value;
+      inputs.push(this.input);
+    }
+    else
+    {
+      this.input.label = this.input.value;
+      inputs[this.findSelectedInputIndex()] = this.input;
+    }
+
+    this.inputs = inputs;
+    this.input = null;
+    this.displayDialogInput = false;
+  }
+
+  findSelectedInputIndex(): number {
+    return this.inputs.indexOf(this.selectedInput);
+  }
+
+  deleteInput() {
+    let index = this.findSelectedInputIndex();
+    this.inputs = this.inputs.filter((val,i) => i!=index);
+    this.input = null;
+    this.displayDialogInput = false;
+  }  
+
+  onRowSelectInput(event) {
+    this.newInput = false;
+    this.input = this.cloneInput(event.data);
+    this.displayDialogInput = true;
+  }
+  
+  cloneInput(c: Input): Input {
+    let input = new Input();
+    for(let prop in c) {
+      input[prop] = c[prop];
+    }
+    return input;
+  }
+  // Inputs
 
   // States
   public displayDialogState: boolean;
@@ -137,23 +254,20 @@ export class AppComponent {
   }
   // State Changes
 
+
+  showStatesChangesInput(){
+    this.showDataEntry = false;
+  }
+
   public model:go.GraphLinksModel;
-  public inputs: SelectItem[];
-  public outputs: SelectItem[];
-  
+  public showDataEntry:boolean;
+
   ngOnInit() {
+    this.showDataEntry = true
     this.stateChanges = [];
     this.states = [];
-
-    this.inputs = [
-      {label:'A', value:'A'},
-      {label:'B', value:'B'},
-    ];
-
-    this.outputs = [
-      {label:'A', value:'A'},
-      {label:'B', value:'B'},
-    ];
+    this.inputs = [];
+    this.outputs = [];
 
     this.model = new go.GraphLinksModel(
     [

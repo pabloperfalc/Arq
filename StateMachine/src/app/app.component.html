@@ -3,35 +3,84 @@
     Bienvenido a {{title}}!
   </h1>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" *ngIf="showDataEntry">
+      <div class="col-3"></div>
       <div class="col-2">
         <!-- State -->
         <p-dataTable [value]="states" selectionMode="single" [(selection)]="selectedState" (onRowSelect)="onRowSelectState($event)" [responsive]="true">
-            <p-header>Estados</p-header>
             <p-column field="label" header="Estado" ></p-column>
             <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddState()" label="Add"></button></div></p-footer>
         </p-dataTable>
 
-        <p-dialog header="Cambio de estado" [(visible)]="displayDialogState" [responsive]="true" showEffect="fade" [modal]="true">
+        <p-dialog header="Estado" [(visible)]="displayDialogState" [responsive]="true" showEffect="fade" [modal]="true">
           <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="state">
             <div class="ui-grid-row">
               <div class="ui-grid-col-4"><label for="state">Estado</label> </div>
-              <div class="ui-grid-col-8"><input pInputText id="state" [(ngModel)]="state.value" /></div>
+              <div class="ui-grid-col-8"><input style="width:113px"  pInputText id="state" [(ngModel)]="state.value" /></div>
             </div>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-              <button type="button" pButton icon="fa-close" (click)="deleteState()" label="Borrar"></button>
               <button type="button" pButton icon="fa-check" (click)="saveState()" label="Guardar"></button>
+              <button type="button" pButton icon="fa-close" (click)="deleteState()" label="Borrar"></button>
             </div>
           </div>
         </p-dialog>
         <!-- State -->
       </div>
-      <div class="col-4">
+      <div class="col-2">
+          <!-- Input -->
+          <p-dataTable [value]="inputs" selectionMode="single" [(selection)]="selectedInput" (onRowSelect)="onRowSelectInput($event)" [responsive]="true">
+              
+              <p-column field="label" header="Entrada" ></p-column>
+              <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddInput()" label="Add"></button></div></p-footer>
+          </p-dataTable>
+  
+          <p-dialog header="Entrada" [(visible)]="displayDialogInput" [responsive]="true" showEffect="fade" [modal]="true">
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="input">
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="input">Entrada</label> </div>
+                <div class="ui-grid-col-8"><input style="width:113px" pInputText id="input" [(ngModel)]="input.value" /></div>
+              </div>
+              <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="fa-check" (click)="saveInput()" label="Guardar"></button>
+                <button type="button" pButton icon="fa-close" (click)="deleteInput()" label="Borrar"></button>
+              </div>
+            </div>
+          </p-dialog>
+          <!-- Input -->
       </div>
-      <div class="col-4">
+      <div class="col-2">
+         <!-- output -->
+         <p-dataTable [value]="outputs" selectionMode="single" [(selection)]="selectedOutput" (onRowSelect)="onRowSelectOutput($event)" [responsive]="true">
+            
+            <p-column field="label" header="Salida" ></p-column>
+            <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddOutput()" label="Add"></button></div></p-footer>
+        </p-dataTable>
+
+        <p-dialog header="Salida" [(visible)]="displayDialogOutput" [responsive]="true" showEffect="fade" [modal]="true">
+          <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="output">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4"><label for="output">Salida</label> </div>
+              <div class="ui-grid-col-8"><input style="width:113px" pInputText id="output" [(ngModel)]="output.value" /></div>
+            </div>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+              <button type="button" pButton icon="fa-check" (click)="saveOutput()" label="Guardar"></button>
+              <button type="button" pButton icon="fa-close" (click)="deleteOutput()" label="Borrar"></button>
+            </div>
+          </div>
+        </p-dialog>
+        <!-- output -->
+        
+      </div>
+      <div class="col-3">
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="showDataEntry">
+        <div class="col-7"></div>
+        <div class="col-3">
+            <button (click)="showStatesChangesInput()" style="margin-top:10px">Crear Maquina de estados</button>
+        </div>
+    </div>
+    <div class="row" *ngIf="!showDataEntry">
       <div class="col-2">
       </div>
       <div class="col-8">
@@ -45,7 +94,7 @@
           <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddStateChange()" label="Add"></button></div></p-footer>
         </p-dataTable>
         
-        <p-dialog header="Cambio de estado" [(visible)]="displayDialogStateChange" [responsive]="true" showEffect="fade" [modal]="true">
+        <p-dialog header="Cambio de estado" *ngIf="displayDialogStateChange"  [(visible)]="displayDialogStateChange" [responsive]="true" showEffect="fade" [modal]="true">
           <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="stateChange">
               <div class="ui-grid-row">
                   <div class="ui-grid-col-4"><label for="state">Estado</label> </div>
@@ -64,53 +113,54 @@
                   <div class="ui-grid-col-8"><p-dropdown  id="output" [options]="outputs" [(ngModel)]="stateChange.output"></p-dropdown></div>
               </div>
               <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                  <button type="button" pButton icon="fa-close" (click)="deleteStateChange()" label="Borrar"></button>
                   <button type="button" pButton icon="fa-check" (click)="saveStateChange()" label="Guardar"></button>
+                  <button type="button" pButton icon="fa-close" (click)="deleteStateChange()" label="Borrar"></button>
               </div>
           </div>
         </p-dialog>
-
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <ng-template ngFor let-item [ngForOf]="states" let-i="index">
-                  <th scope="col">Q{{i}}</th>
-              </ng-template>
-              <ng-template ngFor let-item [ngForOf]="inputs" let-i="index">
-                  <th scope="col">E{{i}}</th>
-              </ng-template>
-              <ng-template ngFor let-item [ngForOf]="states" let-i="index">
-                  <th scope="col">D{{i}}</th>
-              </ng-template>
-              <ng-template ngFor let-item [ngForOf]="outputs" let-i="index">
-                  <th scope="col">S{{i}}</th>
-              </ng-template>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-template ngFor let-item [ngForOf]="stateChanges" let-i="index">
-              <tr>
-                <ng-template ngFor let-item2 [ngForOf]="item.stateBits" let-i="index">
-                  <td>{{item2}}</td>
-                </ng-template>
-                <ng-template ngFor let-item2 [ngForOf]="item.inputBits" let-i="index">
-                    <td>{{item2}}</td>
-                </ng-template>
-                <ng-template ngFor let-item2 [ngForOf]="item.nextStateBits" let-i="index">
-                    <td>{{item2}}</td>
-                </ng-template>
-                <ng-template ngFor let-item2 [ngForOf]="item.outputBits" let-i="index">
-                    <td>{{item2}}</td>
-                </ng-template>
-              </tr>
-            </ng-template>
-          </tbody>
-        </table>
-        <!-- State changes -->
+       <!-- State changes -->
 
       </div>
       <div class="col-2">
       </div>
+    </div>
+    <div class="row" style="margin-top:30px" *ngIf="!showDataEntry" >
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <ng-template ngFor let-item [ngForOf]="states" let-i="index">
+                    <th scope="col">Q{{i}}</th>
+                </ng-template>
+                <ng-template ngFor let-item [ngForOf]="inputs" let-i="index">
+                    <th scope="col">E{{i}}</th>
+                </ng-template>
+                <ng-template ngFor let-item [ngForOf]="states" let-i="index">
+                    <th scope="col">D{{i}}</th>
+                </ng-template>
+                <ng-template ngFor let-item [ngForOf]="outputs" let-i="index">
+                    <th scope="col">S{{i}}</th>
+                </ng-template>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-template ngFor let-item [ngForOf]="stateChanges" let-i="index">
+                <tr>
+                  <ng-template ngFor let-item2 [ngForOf]="item.stateBits" let-i="index">
+                    <td>{{item2}}</td>
+                  </ng-template>
+                  <ng-template ngFor let-item2 [ngForOf]="item.inputBits" let-i="index">
+                      <td>{{item2}}</td>
+                  </ng-template>
+                  <ng-template ngFor let-item2 [ngForOf]="item.nextStateBits" let-i="index">
+                      <td>{{item2}}</td>
+                  </ng-template>
+                  <ng-template ngFor let-item2 [ngForOf]="item.outputBits" let-i="index">
+                      <td>{{item2}}</td>
+                  </ng-template>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
     </div>
     <div class="row">
       <div class="col-12">
