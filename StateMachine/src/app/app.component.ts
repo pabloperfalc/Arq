@@ -353,9 +353,20 @@ cloneOutput(c: Output): Output {
   ngOnInit() {
     this.showDataEntry = true
     this.stateChanges = [];
-    this.states = [];
-    this.inputs = [];
-    this.outputs = [];
+    this.states = [
+      {label:'Est1', value:'Est1'},
+      {label:'Est2', value:'Est2'},
+      {label:'Est3', value:'Est3'},
+      {label:'Est4', value:'Est4'},
+    ];
+    this.inputs = [
+      {label:'Ent1', value:'Est1'},
+      {label:'Ent2', value:'Est2'},
+    ];
+    this.outputs = [
+        {label:'Sal1', value:'Sal1'},
+        {label:'Sal2', value:'Sal2'},
+    ];
 
     this.model = new go.GraphLinksModel(
     [
@@ -404,28 +415,33 @@ cloneOutput(c: Output): Output {
   draw() {
     this.model.nodeDataArray = [];
     var arr = [];
-    for (var _i = 0; _i < this.inputs.length; _i++) {
-      arr.push({category:"input", key:this.inputs[_i].label, loc: +"-500"+ " " + (-500 +(_i*30)).toString(),  text: this.inputs[_i].label});
+    for (var _i = 0; _i < this.inputBits.length; _i++) {
+      arr.push({category:"input", key:("E"+_i), loc: +"-500"+ " " + (-500 +(_i*30)).toString(),  text: ("E"+_i)});
     }
 
-    for (var _i = 0; _i < 2; _i++) {
-      arr.push({category:"and", key:"and" + _i, loc: +"-400"+ " " + (-500 +(_i*50)).toString()});
+    for (var _i = 0; _i < this.stateBits.length; _i++) {
+      arr.push({category:"flipflop", key:("D"+_i), loc: +"-200"+ " " + (-500 +(_i*150)).toString(),  text: ("D"+_i)});
     }
 
-    for (var _i = 0; _i < 1; _i++) {
-      arr.push({category:"or", key:"or" + _i, loc: +"-300"+ " " + (-500 +(_i*50)).toString()});
-    }
+    // for (var _i = 0; _i < 2; _i++) {
+    //   arr.push({category:"and", key:"and" + _i, loc: +"-400"+ " " + (-500 +(_i*50)).toString()});
+    // }
+
+    // for (var _i = 0; _i < 1; _i++) {
+    //   arr.push({category:"or", key:"or" + _i, loc: +"-300"+ " " + (-500 +(_i*50)).toString()});
+    // }
 
 
-    this.model.nodeDataArray = arr;
-    this.model.linkDataArray = [
-    {from:"input1", fromPort:"out", to:"and0", toPort:"in2"},
-    {from:"input2", fromPort:"out", to:"and1", toPort:"in1"},
-    {from:"input3", fromPort:"out", to:"and0", toPort:"in1"},
-    {from:"input4", fromPort:"out", to:"and1", toPort:"in2"},
-    {from:"and0", fromPort:"out", to:"or0", toPort:"in1"},
-    {from:"and1", fromPort:"out", to:"or0", toPort:"in2"},
-    ];
+     this.model.nodeDataArray = arr;
+     this.model.linkDataArray =[];
+    // this.model.linkDataArray = [
+    // {from:"input1", fromPort:"out", to:"and0", toPort:"in2"},
+    // {from:"input2", fromPort:"out", to:"and1", toPort:"in1"},
+    // {from:"input3", fromPort:"out", to:"and0", toPort:"in1"},
+    // {from:"input4", fromPort:"out", to:"and1", toPort:"in2"},
+    // {from:"and0", fromPort:"out", to:"or0", toPort:"in1"},
+    // {from:"and1", fromPort:"out", to:"or0", toPort:"in2"},
+    // ];
   }
 
   onCommitDetails() {

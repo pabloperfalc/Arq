@@ -162,9 +162,19 @@
             </tbody>
           </table>
           <button (click)="drawCircuit()" style="margin-top:10px">Dibujar circuito</button>
-          <ng-template ngFor let-item [ngForOf]="stringFormulas" let-i="index">
-            <span>{{item}}</span><br/>
-          </ng-template>
+          <div class="row">
+              <div class="col-12">
+                <table>
+                    <tbody>
+                      <ng-template ngFor let-item [ngForOf]="stringFormulas" let-i="index">
+                      <tr>
+                            <td>{{item}}</td>
+                      </tr>
+                      </ng-template>
+                    <tbody>
+                </table>
+            </div>
+          </div>
     </div>
     <div class="row">
       <div class="col-12">
