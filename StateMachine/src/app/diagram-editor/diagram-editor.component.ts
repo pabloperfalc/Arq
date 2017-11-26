@@ -115,7 +115,7 @@ export class DiagramEditorComponent implements OnInit {
         $(go.Shape, "Rectangle", portStyle(false),
           { portId: "nout", alignment: new go.Spot(1, 0.7) }),
         $(go.TextBlock,
-          { margin: 8, editable: false, font:"small-caps bold 32px Georgia, Serif" },"D"),
+          { margin: 8, editable: false, font:"small-caps bold 32px Georgia, Serif" },new go.Binding("text").makeTwoWay()),
         $(go.TextBlock,
           { margin: 8, alignment: new go.Spot(0.1, 0.3), editable: false, font:"small-caps bold 12px Georgia, Serif" },"D"),
         $(go.TextBlock,

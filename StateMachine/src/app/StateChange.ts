@@ -1,4 +1,5 @@
 export class StateChange{
+    id:string;
     state:String;
     nextState:String;
     input:String;

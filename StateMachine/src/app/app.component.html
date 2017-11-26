@@ -7,16 +7,25 @@
       <div class="col-3"></div>
       <div class="col-2">
         <!-- State -->
-        <p-dataTable [value]="states" selectionMode="single" [(selection)]="selectedState" (onRowSelect)="onRowSelectState($event)" [responsive]="true">
-            <p-column field="label" header="Estado" ></p-column>
-            <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddState()" label="Add"></button></div></p-footer>
+        <p-dataTable [value]="states" selectionMode="single" [(selection)]="selectedState" (onRowSelect)="onRowSelectState($event)"
+          [responsive]="true">
+          <p-column field="label" header="Estado"></p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddState()" label="Agregar"></button>
+            </div>
+          </p-footer>
         </p-dataTable>
 
         <p-dialog header="Estado" [(visible)]="displayDialogState" [responsive]="true" showEffect="fade" [modal]="true">
           <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="state">
             <div class="ui-grid-row">
-              <div class="ui-grid-col-4"><label for="state">Estado</label> </div>
-              <div class="ui-grid-col-8"><input style="width:113px"  pInputText id="state" [(ngModel)]="state.value" /></div>
+              <div class="ui-grid-col-4">
+                <label for="state">Estado</label>
+              </div>
+              <div class="ui-grid-col-8">
+                <input style="width:113px" pInputText id="state" [(ngModel)]="state.value" />
+              </div>
             </div>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
               <button type="button" pButton icon="fa-check" (click)="saveState()" label="Guardar"></button>
@@ -27,40 +36,58 @@
         <!-- State -->
       </div>
       <div class="col-2">
-          <!-- Input -->
-          <p-dataTable [value]="inputs" selectionMode="single" [(selection)]="selectedInput" (onRowSelect)="onRowSelectInput($event)" [responsive]="true">
-              
-              <p-column field="label" header="Entrada" ></p-column>
-              <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddInput()" label="Add"></button></div></p-footer>
-          </p-dataTable>
-  
-          <p-dialog header="Entrada" [(visible)]="displayDialogInput" [responsive]="true" showEffect="fade" [modal]="true">
-            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="input">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-4"><label for="input">Entrada</label> </div>
-                <div class="ui-grid-col-8"><input style="width:113px" pInputText id="input" [(ngModel)]="input.value" /></div>
+        <!-- Input -->
+        <p-dataTable [value]="inputs" selectionMode="single" [(selection)]="selectedInput" (onRowSelect)="onRowSelectInput($event)"
+          [responsive]="true">
+
+          <p-column field="label" header="Entrada"></p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddInput()" label="Agregar"></button>
+            </div>
+          </p-footer>
+        </p-dataTable>
+
+        <p-dialog header="Entrada" [(visible)]="displayDialogInput" [responsive]="true" showEffect="fade" [modal]="true">
+          <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="input">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4">
+                <label for="input">Entrada</label>
               </div>
-              <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" pButton icon="fa-check" (click)="saveInput()" label="Guardar"></button>
-                <button type="button" pButton icon="fa-close" (click)="deleteInput()" label="Borrar"></button>
+              <div class="ui-grid-col-8">
+                <input style="width:113px" pInputText id="input" [(ngModel)]="input.value" />
               </div>
             </div>
-          </p-dialog>
-          <!-- Input -->
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+              <button type="button" pButton icon="fa-check" (click)="saveInput()" label="Guardar"></button>
+              <button type="button" pButton icon="fa-close" (click)="deleteInput()" label="Borrar"></button>
+            </div>
+          </div>
+        </p-dialog>
+        <!-- Input -->
       </div>
       <div class="col-2">
-         <!-- output -->
-         <p-dataTable [value]="outputs" selectionMode="single" [(selection)]="selectedOutput" (onRowSelect)="onRowSelectOutput($event)" [responsive]="true">
-            
-            <p-column field="label" header="Salida" ></p-column>
-            <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddOutput()" label="Add"></button></div></p-footer>
+        <!-- output -->
+        <p-dataTable [value]="outputs" selectionMode="single" [(selection)]="selectedOutput" (onRowSelect)="onRowSelectOutput($event)"
+          [responsive]="true">
+
+          <p-column field="label" header="Salida"></p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddOutput()" label="Agregar"></button>
+            </div>
+          </p-footer>
         </p-dataTable>
 
         <p-dialog header="Salida" [(visible)]="displayDialogOutput" [responsive]="true" showEffect="fade" [modal]="true">
           <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="output">
             <div class="ui-grid-row">
-              <div class="ui-grid-col-4"><label for="output">Salida</label> </div>
-              <div class="ui-grid-col-8"><input style="width:113px" pInputText id="output" [(ngModel)]="output.value" /></div>
+              <div class="ui-grid-col-4">
+                <label for="output">Salida</label>
+              </div>
+              <div class="ui-grid-col-8">
+                <input style="width:113px" pInputText id="output" [(ngModel)]="output.value" />
+              </div>
             </div>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
               <button type="button" pButton icon="fa-check" (click)="saveOutput()" label="Guardar"></button>
@@ -69,137 +96,172 @@
           </div>
         </p-dialog>
         <!-- output -->
-        
+
       </div>
       <div class="col-3">
       </div>
     </div>
     <div class="row" *ngIf="showDataEntry">
-        <div class="col-7"></div>
-        <div class="col-3">
-            <button (click)="showStatesChangesInput()" style="margin-top:10px">Crear Maquina de estados</button>
-        </div>
+      <div class="col-7"></div>
+      <div class="col-3">
+        <button (click)="showStatesChangesInput()" style="margin-top:10px">Crear Maquina de estados</button>
+      </div>
     </div>
     <div class="row" *ngIf="!showDataEntry">
       <div class="col-2">
       </div>
       <div class="col-8">
         <!-- State changes -->
-        <p-dataTable [value]="stateChanges" selectionMode="single" [(selection)]="selectedStateChange" (onRowSelect)="onRowSelect($event)" [responsive]="true">
+        <p-dataTable [value]="stateChanges" selectionMode="single" [(selection)]="selectedStateChange" (onRowSelect)="onRowSelect($event)"
+          [responsive]="true">
           <p-header>Maquina de Estados</p-header>
-          <p-column field="state" header="Estado" ></p-column>
-          <p-column field="input" header="Entrada" ></p-column>
-          <p-column field="nextState" header="Estado Siguiente" ></p-column>
-          <p-column field="output" header="Salida" ></p-column>
-          <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddStateChange()" label="Add"></button></div></p-footer>
+          <p-column field="state" header="Estado"></p-column>
+          <p-column field="input" header="Entrada"></p-column>
+          <p-column field="nextState" header="Estado Siguiente"></p-column>
+          <p-column field="output" header="Salida"></p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddStateChange()" label="Agregar"></button>
+            </div>
+          </p-footer>
         </p-dataTable>
-        
-        <p-dialog header="Cambio de estado" *ngIf="displayDialogStateChange"  [(visible)]="displayDialogStateChange" [responsive]="true" showEffect="fade" [modal]="true">
+
+        <p-dialog header="Cambio de estado" *ngIf="displayDialogStateChange" [(visible)]="displayDialogStateChange" [responsive]="true"
+          showEffect="fade" [modal]="true">
           <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="stateChange">
-              <div class="ui-grid-row">
-                  <div class="ui-grid-col-4"><label for="state">Estado</label> </div>
-                  <div class="ui-grid-col-8"><p-dropdown id="state" [options]="states" [(ngModel)]="stateChange.state"></p-dropdown></div>
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4">
+                <label for="state">Estado</label>
               </div>
-              <div class="ui-grid-row">
-                  <div class="ui-grid-col-4"><label for="input">Entrada</label> </div>
-                  <div class="ui-grid-col-8"><p-dropdown id="input" [options]="inputs" [(ngModel)]="stateChange.input"></p-dropdown></div>
+              <div class="ui-grid-col-8">
+                <p-dropdown id="state" [options]="states" [(ngModel)]="stateChange.state"></p-dropdown>
               </div>
-              <div class="ui-grid-row">
-                  <div class="ui-grid-col-4"><label for="nextState">Siguiente Estado</label> </div>
-                  <div class="ui-grid-col-8"><p-dropdown  id="nextState" [options]="states" [(ngModel)]="stateChange.nextState"></p-dropdown></div>
+            </div>
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4">
+                <label for="input">Entrada</label>
               </div>
-              <div class="ui-grid-row">
-                  <div class="ui-grid-col-4"><label for="output">Salida</label> </div>
-                  <div class="ui-grid-col-8"><p-dropdown  id="output" [options]="outputs" [(ngModel)]="stateChange.output"></p-dropdown></div>
+              <div class="ui-grid-col-8">
+                <p-dropdown id="input" [options]="inputs" [(ngModel)]="stateChange.input"></p-dropdown>
               </div>
-              <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                  <button type="button" pButton icon="fa-check" (click)="saveStateChange()" label="Guardar"></button>
-                  <button type="button" pButton icon="fa-close" (click)="deleteStateChange()" label="Borrar"></button>
+            </div>
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4">
+                <label for="nextState">Siguiente Estado</label>
               </div>
+              <div class="ui-grid-col-8">
+                <p-dropdown id="nextState" [options]="states" [(ngModel)]="stateChange.nextState"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4">
+                <label for="output">Salida</label>
+              </div>
+              <div class="ui-grid-col-8">
+                <p-dropdown id="output" [options]="outputs" [(ngModel)]="stateChange.output"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+              <button type="button" pButton icon="fa-check" (click)="saveStateChange()" label="Guardar"></button>
+              <button type="button" pButton icon="fa-close" (click)="deleteStateChange()" label="Borrar"></button>
+            </div>
           </div>
         </p-dialog>
-       <!-- State changes -->
+        <!-- State changes -->
 
       </div>
       <div class="col-2">
       </div>
     </div>
-    <div class="row" style="margin-top:30px" *ngIf="!showDataEntry" >
+    <div class="row" style="margin-top:30px" *ngIf="!showDataEntry">
+      <div class="col-2">
+      </div>
+      <div class="col-8">
         <table class="table table-bordered">
-            <thead>
+          <thead>
+            <tr>
+              <ng-template ngFor let-item [ngForOf]="stateBits" let-i="index">
+                <th scope="col">Q{{i}}</th>
+              </ng-template>
+              <ng-template ngFor let-item [ngForOf]="inputBits" let-i="index">
+                <th scope="col">E{{i}}</th>
+              </ng-template>
+              <ng-template ngFor let-item [ngForOf]="stateBits" let-i="index">
+                <th scope="col">D{{i}}</th>
+              </ng-template>
+              <ng-template ngFor let-item [ngForOf]="outputBits" let-i="index">
+                <th scope="col">S{{i}}</th>
+              </ng-template>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template ngFor let-item [ngForOf]="stateChangesShow" let-i="index">
               <tr>
-                <ng-template ngFor let-item [ngForOf]="stateBits" let-i="index">
-                    <th scope="col">Q{{i}}</th>
+                <ng-template ngFor let-item2 [ngForOf]="item.stateBits" let-i="index">
+                  <td>{{item2}}</td>
                 </ng-template>
-                <ng-template ngFor let-item [ngForOf]="inputBits" let-i="index">
-                    <th scope="col">E{{i}}</th>
+                <ng-template ngFor let-item2 [ngForOf]="item.inputBits" let-i="index">
+                  <td>{{item2}}</td>
                 </ng-template>
-                <ng-template ngFor let-item [ngForOf]="stateBits" let-i="index">
-                    <th scope="col">D{{i}}</th>
+                <ng-template ngFor let-item2 [ngForOf]="item.nextStateBits" let-i="index">
+                  <td>{{item2}}</td>
                 </ng-template>
-                <ng-template ngFor let-item [ngForOf]="outputBits" let-i="index">
-                    <th scope="col">S{{i}}</th>
+                <ng-template ngFor let-item2 [ngForOf]="item.outputBits" let-i="index">
+                  <td>{{item2}}</td>
                 </ng-template>
               </tr>
-            </thead>
-            <tbody>
-              <ng-template ngFor let-item [ngForOf]="stateChanges" let-i="index">
-                <tr>
-                  <ng-template ngFor let-item2 [ngForOf]="item.stateBits" let-i="index">
-                    <td>{{item2}}</td>
-                  </ng-template>
-                  <ng-template ngFor let-item2 [ngForOf]="item.inputBits" let-i="index">
-                      <td>{{item2}}</td>
-                  </ng-template>
-                  <ng-template ngFor let-item2 [ngForOf]="item.nextStateBits" let-i="index">
-                      <td>{{item2}}</td>
-                  </ng-template>
-                  <ng-template ngFor let-item2 [ngForOf]="item.outputBits" let-i="index">
-                      <td>{{item2}}</td>
-                  </ng-template>
-                </tr>
-              </ng-template>
-            </tbody>
-          </table>
-          <button (click)="drawCircuit()" style="margin-top:10px">Dibujar circuito</button>
-          <div class="row">
-              <div class="col-12">
-                <table>
-                    <tbody>
-                      <ng-template ngFor let-item [ngForOf]="stringFormulas" let-i="index">
-                      <tr>
-                            <td>{{item}}</td>
-                      </tr>
-                      </ng-template>
-                    <tbody>
-                </table>
-            </div>
+            </ng-template>
+          </tbody>
+        </table>
+        <button (click)="drawCircuit()" style="margin-top:10px">Dibujar circuito</button>
+        <div class="row" *ngIf="stringFormulas?.length > 0" style="margin-top:10px">
+          <div class="col-12" >
+            <table>
+                <thead>
+                    <tr>
+                      <th scope="col">Formas canonicas</th>
+                    </tr>
+                </thead>
+              <tbody>
+                <ng-template ngFor let-item [ngForOf]="stringFormulas" let-i="index">
+                  <tr>
+                    <td>{{item}}</td>
+                  </tr>
+                </ng-template>
+                <tbody>
+            </table>
           </div>
+        </div>
+      </div>
+      <div class="col-2">
+      </div>
     </div>
     <div class="row">
       <div class="col-12">
         <button (click)="draw()">Diagrama</button>
-        <app-diagram-editor
-        [model]="model"
-        (nodeSelected)="showDetails($event)"
-        (modelChanged)="onModelChanged($event)">
+        <app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
         </app-diagram-editor>
         <form *ngIf="node" #form="ngForm" (ngSubmit)="onCommitDetails()">
           Node Details:
-          <div><label>Key: </label>{{node.key}}</div>
-          <div><label>Text: </label><input [(ngModel)]="data.text" name="text"></div>
-          <div><label>Color: </label><input [(ngModel)]="data.color" name="color"></div>
-          <div><label>Location: </label>{{node.location.x.toFixed(2)}}, {{node.location.y.toFixed(2)}}</div>
-          <div><label># Links: </label>{{node.linksConnected.count}}</div>
+          <div>
+            <label>Key: </label>{{node.key}}</div>
+          <div>
+            <label>Text: </label>
+            <input [(ngModel)]="data.text" name="text">
+          </div>
+          <div>
+            <label>Color: </label>
+            <input [(ngModel)]="data.color" name="color">
+          </div>
+          <div>
+            <label>Location: </label>{{node.location.x.toFixed(2)}}, {{node.location.y.toFixed(2)}}</div>
+          <div>
+            <label># Links: </label>{{node.linksConnected.count}}</div>
           <button type="submit">Commit Details</button>
           <button (click)="onCancelChanges()">Cancel Changes</button>
         </form>
       </div>
     </div>
-  
+
   </div>
-
-
-
-  
 </div>

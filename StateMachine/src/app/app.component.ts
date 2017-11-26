@@ -211,7 +211,15 @@ cloneOutput(c: Output): Output {
   saveStateChange() {
     let stateChanges = [...this.stateChanges];
     
+    let id = this.states.findIndex( s => s.value == this.stateChange.state).toString() + this.inputs.findIndex( s => s.value == this.stateChange.input).toString()
+    if(this.stateChanges.findIndex(scs => scs.id == id) >= 0)
+    {
+      alert("Cambio de estado repetido") ;
+      return;
+    }
+
     if(this.newStateChange){
+      this.stateChange.id = this.states.findIndex( s => s.value == this.stateChange.state).toString() + this.inputs.findIndex( s => s.value == this.stateChange.input).toString();
       this.stateChange.stateBits = (this.states.findIndex( s => s.value == this.stateChange.state).toString(2).padStart(this.stateBits.length,"0").split(''));//.map(x => x === '1'));
       this.stateChange.inputBits = (this.inputs.findIndex( s => s.value == this.stateChange.input).toString(2).padStart(this.inputBits.length,"0").split(''));//.map(x => x === '1'));
       this.stateChange.nextStateBits = (this.states.findIndex( s => s.value == this.stateChange.nextState).toString(2).padStart(this.stateBits.length,"0").split(''));//.map(x => x === '1'));
@@ -223,9 +231,13 @@ cloneOutput(c: Output): Output {
       stateChanges[this.findSelectedStateChangeIndex()] = this.stateChange;
     }
 
+    this.stateChangesShow[this.stateChangesShow.findIndex(scs => scs.id == this.stateChange.id)] = this.stateChange;
+
     this.stateChanges = stateChanges;
     this.stateChange = null;
     this.displayDialogStateChange = false;
+
+    
   }
 
   findSelectedStateChangeIndex(): number {
@@ -234,6 +246,10 @@ cloneOutput(c: Output): Output {
 
   deleteStateChange() {
     let index = this.findSelectedStateChangeIndex();
+
+    this.stateChangesShow[this.stateChangesShow.findIndex(scs => scs.id == this.stateChanges[index].id)].nextStateBits = "".padStart(this.stateBits.length,"X").split('');;
+    this.stateChangesShow[this.stateChangesShow.findIndex(scs => scs.id == this.stateChanges[index].id)].outputBits = "".padStart(this.outputBits.length,"X").split('');;
+
     this.stateChanges = this.stateChanges.filter((val,i) => i!=index);
     this.stateChange = null;
     this.displayDialogStateChange = false;
@@ -257,11 +273,30 @@ cloneOutput(c: Output): Output {
   public inputBits:string[];
   public outputBits:string[];
   public stateBits:string[];
+
+  public stateChangesShow: StateChange[];
+
   showStatesChangesInput(){
     this.showDataEntry = false;
     this.inputBits = (this.inputs.length - 1).toString(2).split('');
     this.outputBits = (this.outputs.length - 1).toString(2).split('');
     this.stateBits = (this.states.length - 1).toString(2).split('');
+    debugger;
+    this.stateChangesShow = [];
+    for (var i = 0; i < 2**this.stateBits.length; i++)
+    {
+      for (var j = 0; j < 2**this.inputBits.length; j++)
+      {
+        let stateChange = new StateChange();
+        stateChange.id = i.toString() + j.toString();
+        stateChange.stateBits = i.toString(2).padStart(this.stateBits.length,"0").split('');
+        stateChange.inputBits = j.toString(2).padStart(this.inputBits.length,"0").split('');
+        stateChange.nextStateBits = "".padStart(this.stateBits.length,"X").split('');
+        stateChange.outputBits = "".padStart(this.outputBits.length,"X").split('');
+        this.stateChangesShow.push(stateChange);
+      }
+    }
+   
   }
 
   public formulas:Formula[];
@@ -271,14 +306,14 @@ cloneOutput(c: Output): Output {
     this.formulas = [];
     this.stringFormulas =[];
 
-    for (var i = 0; i < this.stateChanges[0].outputBits.length; i++)
+    for (var i = 0; i < this.outputBits.length; i++)
     {
       let formula = new Formula();
       formula.outPort = "S" + i;
       formula.data=[];
       this.formulas.push(formula);
     }
-    for (var i = 0; i < this.stateChanges[0].nextStateBits.length; i++)
+    for (var i = 0; i < this.stateBits.length; i++)
     {
       let formula = new Formula();
       formula.outPort = "D" + i;
@@ -360,8 +395,8 @@ cloneOutput(c: Output): Output {
       {label:'Est4', value:'Est4'},
     ];
     this.inputs = [
-      {label:'Ent1', value:'Est1'},
-      {label:'Ent2', value:'Est2'},
+      {label:'Ent1', value:'Ent1'},
+      {label:'Ent2', value:'Ent2'},
     ];
     this.outputs = [
         {label:'Sal1', value:'Sal1'},
