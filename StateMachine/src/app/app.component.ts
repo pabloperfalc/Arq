@@ -6,6 +6,8 @@ import { debug } from 'util';
 import { State } from './State';
 import { Input } from './Input';
 import { Output } from './Output';
+import { Formula } from './Formula';
+import { Text } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
@@ -145,8 +147,6 @@ cloneOutput(c: Output): Output {
   }
 
   saveState() {
-
-    debugger;
     let states = [...this.states];
     if(this.newState){
       this.state.label = this.state.value;
@@ -212,10 +212,10 @@ cloneOutput(c: Output): Output {
     let stateChanges = [...this.stateChanges];
     
     if(this.newStateChange){
-      this.stateChange.stateBits = (this.states.findIndex( s => s.value == this.stateChange.state).toString(2).padStart(this.states.length,"0").split(''));//.map(x => x === '1'));
-      this.stateChange.inputBits = (this.inputs.findIndex( s => s.value == this.stateChange.input).toString(2).padStart(this.inputs.length,"0").split(''));//.map(x => x === '1'));
-      this.stateChange.nextStateBits = (this.states.findIndex( s => s.value == this.stateChange.nextState).toString(2).padStart(this.states.length,"0").split(''));//.map(x => x === '1'));
-      this.stateChange.outputBits = (this.outputs.findIndex( s => s.value == this.stateChange.output).toString(2).padStart(this.outputs.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.stateBits = (this.states.findIndex( s => s.value == this.stateChange.state).toString(2).padStart(this.stateBits.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.inputBits = (this.inputs.findIndex( s => s.value == this.stateChange.input).toString(2).padStart(this.inputBits.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.nextStateBits = (this.states.findIndex( s => s.value == this.stateChange.nextState).toString(2).padStart(this.stateBits.length,"0").split(''));//.map(x => x === '1'));
+      this.stateChange.outputBits = (this.outputs.findIndex( s => s.value == this.stateChange.output).toString(2).padStart(this.outputBits.length,"0").split(''));//.map(x => x === '1'));
       stateChanges.push(this.stateChange);
     }
     else
@@ -254,9 +254,97 @@ cloneOutput(c: Output): Output {
   }
   // State Changes
 
-
+  public inputBits:string[];
+  public outputBits:string[];
+  public stateBits:string[];
   showStatesChangesInput(){
     this.showDataEntry = false;
+    this.inputBits = (this.inputs.length - 1).toString(2).split('');
+    this.outputBits = (this.outputs.length - 1).toString(2).split('');
+    this.stateBits = (this.states.length - 1).toString(2).split('');
+  }
+
+  public formulas:Formula[];
+  public stringFormulas:string[];
+
+  drawCircuit(){
+    this.formulas = [];
+    this.stringFormulas =[];
+
+    for (var i = 0; i < this.stateChanges[0].outputBits.length; i++)
+    {
+      let formula = new Formula();
+      formula.outPort = "S" + i;
+      formula.data=[];
+      this.formulas.push(formula);
+    }
+    for (var i = 0; i < this.stateChanges[0].nextStateBits.length; i++)
+    {
+      let formula = new Formula();
+      formula.outPort = "D" + i;
+      formula.data=[];
+      this.formulas.push(formula);
+    }
+
+    for (let stateChange of this.stateChanges) {
+      for (var i = 0; i < stateChange.outputBits.length; i++)
+      {
+        if(stateChange.outputBits[i] == "1"){
+          let ands = [];
+          for (var j = 0; j < stateChange.stateBits.length; j++)
+          {
+            if(stateChange.stateBits[j] == "1")
+              ands.push("Q" + j);
+            else
+              ands.push("!Q" + j);
+          }
+          for (var j = 0; j < stateChange.inputBits.length; j++)
+          {
+            if(stateChange.inputBits[j] == "1")
+              ands.push("E" + j);
+            else
+              ands.push("!E" + j);
+          }
+          this.formulas[i].data.push(ands);
+        }
+      }
+      for (var i = 0; i < stateChange.nextStateBits.length; i++)
+      {
+        if(stateChange.nextStateBits[i] == "1"){
+          let ands = [];
+          for (var j = 0; j < stateChange.stateBits.length; j++)
+          {
+            if(stateChange.stateBits[j] == "1")
+              ands.push("Q" + j);
+            else
+              ands.push("!Q" + j);
+          }
+          for (var j = 0; j < stateChange.inputBits.length; j++)
+          {
+            if(stateChange.inputBits[j] == "1")
+              ands.push("E" + j);
+            else
+              ands.push("!E" + j);
+          }
+          this.formulas[stateChange.outputBits.length+i].data.push(ands);
+        }
+      }
+    }
+    this.stringFormulas = [];
+    for (var i = 0; i < this.formulas.length; i++){
+      let formula = this.formulas[i];
+      this.stringFormulas[i]= formula.outPort + "= ";
+      for (var j = 0; j < formula.data.length ; j++)
+      {
+        for (var k = 0; k < formula.data[j].length; k++)
+        {
+          this.stringFormulas[i] = this.stringFormulas[i] + formula.data[j][k] + ".";
+        }
+        this.stringFormulas[i] = this.stringFormulas[i].slice(0, -1);
+        this.stringFormulas[i] = this.stringFormulas[i] + "+";
+      }
+      this.stringFormulas[i] = this.stringFormulas[i].slice(0, -1);
+    }
   }
 
   public model:go.GraphLinksModel;
@@ -316,8 +404,8 @@ cloneOutput(c: Output): Output {
   draw() {
     this.model.nodeDataArray = [];
     var arr = [];
-    for (var _i = 0; _i < 10; _i++) {
-      arr.push({category:"input", key:"input" + _i, loc: +"-500"+ " " + (-500 +(_i*30)).toString()});
+    for (var _i = 0; _i < this.inputs.length; _i++) {
+      arr.push({category:"input", key:this.inputs[_i].label, loc: +"-500"+ " " + (-500 +(_i*30)).toString(),  text: this.inputs[_i].label});
     }
 
     for (var _i = 0; _i < 2; _i++) {

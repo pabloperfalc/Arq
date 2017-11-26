@@ -128,16 +128,16 @@
         <table class="table table-bordered">
             <thead>
               <tr>
-                <ng-template ngFor let-item [ngForOf]="states" let-i="index">
+                <ng-template ngFor let-item [ngForOf]="stateBits" let-i="index">
                     <th scope="col">Q{{i}}</th>
                 </ng-template>
-                <ng-template ngFor let-item [ngForOf]="inputs" let-i="index">
+                <ng-template ngFor let-item [ngForOf]="inputBits" let-i="index">
                     <th scope="col">E{{i}}</th>
                 </ng-template>
-                <ng-template ngFor let-item [ngForOf]="states" let-i="index">
+                <ng-template ngFor let-item [ngForOf]="stateBits" let-i="index">
                     <th scope="col">D{{i}}</th>
                 </ng-template>
-                <ng-template ngFor let-item [ngForOf]="outputs" let-i="index">
+                <ng-template ngFor let-item [ngForOf]="outputBits" let-i="index">
                     <th scope="col">S{{i}}</th>
                 </ng-template>
               </tr>
@@ -161,6 +161,10 @@
               </ng-template>
             </tbody>
           </table>
+          <button (click)="drawCircuit()" style="margin-top:10px">Dibujar circuito</button>
+          <ng-template ngFor let-item [ngForOf]="stringFormulas" let-i="index">
+            <span>{{item}}</span><br/>
+          </ng-template>
     </div>
     <div class="row">
       <div class="col-12">
