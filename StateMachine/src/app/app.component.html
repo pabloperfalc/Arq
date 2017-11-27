@@ -239,6 +239,9 @@
     <div class="row">
       <div class="col-12">
         <button class="btn btn-primary" (click)="draw()">Diagrama</button>
+        <app-diagram-editorStateMachine [model]="modelStateMachine">
+          </app-diagram-editorStateMachine>
+
         <app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
         </app-diagram-editor>
         <form *ngIf="node" #form="ngForm" (ngSubmit)="onCommitDetails()">

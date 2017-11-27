@@ -380,10 +380,33 @@ cloneOutput(c: Output): Output {
       }
       this.stringFormulas[i] = this.stringFormulas[i].slice(0, -1);
     }
+
+    let nodeArray = [];
+    let cont=0;
+    debugger;
+    for (let state of this.states) {
+      nodeArray.push({ key: state.value, loc: (120 + (80 * cont)).toString() + " 120" , text: state.value })
+      cont++;
+    }
+
+    let linkArray = [];
+
+    for (let stateChange of this.stateChanges) {
+      linkArray.push({ from: stateChange.state, to: stateChange.nextState, text: (stateChange.input + "/" + stateChange.output ), curviness: 70 })
+    }
+
+    this.modelStateMachine = new go.GraphLinksModel(nodeArray,
+      linkArray
+    
+   );
+
+
   }
 
   public model:go.GraphLinksModel;
   public showDataEntry:boolean;
+
+  public modelStateMachine:go.GraphLinksModel;
 
   ngOnInit() {
     this.showDataEntry = true
@@ -403,6 +426,30 @@ cloneOutput(c: Output): Output {
         {label:'Sal2', value:'Sal2'},
     ];
 
+    this.modelStateMachine =new go.GraphLinksModel([],[]);
+    // this.modelStateMachine = new go.GraphLinksModel([
+    //     { key: 0, loc: "120 120", text: "Initial" },
+    //     { key: 1, loc: "330 120", text: "First down" },
+    //     { key: 2, loc: "226 376", text: "First up" },
+    //     { key: 3, loc: "60 276", text: "Second down" },
+    //     { key: 4, loc: "226 226", text: "Wait" }
+    //   ],[
+    //     { from: 0, to: 0, text: "up or timer", curviness: -20 },
+    //     { from: 0, to: 1, text: "down", curviness: 20 },
+    //     { from: 1, to: 0, text: "up (moved)\nPOST", curviness: 20 },
+    //     { from: 1, to: 1, text: "down", curviness: -20 },
+    //     { from: 1, to: 2, text: "up (no move)" },
+    //     { from: 1, to: 4, text: "timer" },
+    //     { from: 2, to: 0, text: "timer\nPOST" },
+    //     { from: 2, to: 3, text: "down" },
+    //     { from: 3, to: 0, text: "up\nPOST\n(dblclick\nif no move)" },
+    //     { from: 3, to: 3, text: "down or timer", curviness: 20 },
+    //     { from: 4, to: 0, text: "up\nPOST" },
+    //     { from: 4, to: 4, text: "down" }
+    //   ]
+    //  );
+
+     
     this.model = new go.GraphLinksModel(
     [
       {category:"input", key:"input1", loc:"-150 -80", text:"A" },
