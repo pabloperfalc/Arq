@@ -380,7 +380,10 @@ cloneOutput(c: Output): Output {
       }
       this.stringFormulas[i] = this.stringFormulas[i].slice(0, -1);
     }
+  }
 
+
+  drawStateMachine(){
     let nodeArray = [];
     let cont=0;
     debugger;
@@ -395,13 +398,11 @@ cloneOutput(c: Output): Output {
       linkArray.push({ from: stateChange.state, to: stateChange.nextState, text: (stateChange.input + "/" + stateChange.output ), curviness: 70 })
     }
 
-    this.modelStateMachine = new go.GraphLinksModel(nodeArray,
-      linkArray
-    
-   );
-
+    this.modelStateMachine = new go.GraphLinksModel(nodeArray,linkArray);
+    this.modelStateMachine.nodeDataArray
 
   }
+
 
   public model:go.GraphLinksModel;
   public showDataEntry:boolean;
