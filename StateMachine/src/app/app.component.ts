@@ -281,7 +281,6 @@ cloneOutput(c: Output): Output {
     this.inputBits = (this.inputs.length - 1).toString(2).split('');
     this.outputBits = (this.outputs.length - 1).toString(2).split('');
     this.stateBits = (this.states.length - 1).toString(2).split('');
-    debugger;
     this.stateChangesShow = [];
     for (var i = 0; i < 2**this.stateBits.length; i++)
     {
@@ -386,7 +385,7 @@ cloneOutput(c: Output): Output {
   drawStateMachine(){
     let nodeArray = [];
     let cont=0;
-    debugger;
+    
     for (let state of this.states) {
       nodeArray.push({ key: state.value, loc: (120 + (80 * cont)).toString() + " 120" , text: state.value })
       cont++;
@@ -497,6 +496,21 @@ cloneOutput(c: Output): Output {
 
   draw() {
     this.model.nodeDataArray = [];
+
+    console.log(this.formulas.length);
+    var or = 0;
+    var and = 0;
+    for (var i = 0; this.formulas.length < i; i++) {
+        console.log(this.formulas[i]);
+
+      if (this.stringFormulas[i] != null) {
+          and += this.stringFormulas[i][0].length;
+          or += this.stringFormulas[i].length;
+      }
+    }
+            console.log(or);
+
+        console.log(and);
     var arr = [];
     for (var _i = 0; _i < this.inputBits.length; _i++) {
       arr.push({category:"input", key:("E"+_i), loc: +"-500"+ " " + (-500 +(_i*30)).toString(),  text: ("E"+_i)});
@@ -505,6 +519,10 @@ cloneOutput(c: Output): Output {
     for (var _i = 0; _i < this.stateBits.length; _i++) {
       arr.push({category:"flipflop", key:("D"+_i), loc: +"-200"+ " " + (-500 +(_i*150)).toString(),  text: ("D"+_i)});
     }
+
+    //for (var _i = 0; _i < this.stateBits.length; _i++) {
+      arr.push({category:"input", key:("C"), loc: +"-50"+ " " + (-500 +(250)).toString(),  text: ("CLK")});
+    //}
 
     // for (var _i = 0; _i < 2; _i++) {
     //   arr.push({category:"and", key:"and" + _i, loc: +"-400"+ " " + (-500 +(_i*50)).toString()});
