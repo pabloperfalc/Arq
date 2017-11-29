@@ -592,11 +592,13 @@ cloneOutput(c: Output): Output {
           });
       }
 
-
+debugger;
       this.model.nodeDataArray = arr;
       //this.model.linkDataArray =[];
       var bandera = true;
       //this.stringFormulas = [];
+
+      var linkArray = [];
       this.model.linkDataArray = [];
       for (var i = 0; i < this.formulas.length; i++) {
           let formula = this.formulas[i];
@@ -607,28 +609,28 @@ cloneOutput(c: Output): Output {
                   for (var z = 0; z < (formula.data[j].length)/3; z++) {
                       console.log('aaa');
 
-                      this.model.linkDataArray.push({
-                          from: "E"+(z*3),
+                      linkArray.push({
+                          from: "E"+(z*3).toString(),
                           fromPort: "out",
-                          to: "AD"+z,
+                          to: "AD"+z.toString(),
                           toPort: "in1"
                       });
-                      this.model.linkDataArray.push({
-                          from: "E"+(z*3+1),
+                      linkArray.push({
+                          from: "E"+(z*3+1).toString(),
                           fromPort: "out",
-                          to: "AD"+z,
+                          to: "AD"+z.toString(),
                           toPort: "in2"
                       });
-                      this.model.linkDataArray.push({
-                          from: "E"+(z*3+2),
+                      linkArray.push({
+                          from: "E"+(z*3+2).toString(),
                           fromPort: "out",
-                          to: "AD"+(z+1),
+                          to: "AD"+(z+1).toString(),
                           toPort: "in2"
                       });
-                      this.model.linkDataArray.push({
+                      linkArray.push({
                           from: "AD"+z,
                           fromPort: "out",
-                          to: "AD"+(z+1),
+                          to: "AD"+(z+1).toString(),
                           toPort: "in1"
                       });
 
@@ -650,6 +652,8 @@ cloneOutput(c: Output): Output {
           }
 
       }
+
+      this.model.linkDataArray = linkArray;
       //   console.log(this.model.linkDataArray)
 
 
