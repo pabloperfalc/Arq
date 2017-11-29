@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+    import { Component, ViewChild, ElementRef } from '@angular/core';
 import * as go from 'gojs';
 import { SelectItem } from 'primeng/components/common/selectitem';
 import { StateChange } from './StateChange';
@@ -502,37 +502,47 @@ cloneOutput(c: Output): Output {
       var orD = 0;
       var andS = 0;
       var andD = 0;
-      var entradas = 0;
-      console.log(this.formulas.length)
+      var entradasD = 0;
+      var entradasS = 0;
+     // console.log(this.formulas.length)
       for (var i = 0; i < this.formulas.length; i++) {
+        var banderaORD = true;
+        var banderaORS = true;
+
           for (var z = 0; z < this.formulas[i].data.length; z++) {
-              console.log(this.formulas[i].data);
+              // console.log(this.formulas[i].data);
               //console.log(this.formulas[i])
 
               //        console.log(this.formulas[i].data[0])
               //      console.log(this.formulas[i].outPort[0])
               if (this.formulas[i].outPort[0] == "S") {
+                  entradasS = entradasS + this.formulas[i].data[z].length;   
                   andS = andS + this.formulas[i].data[z].length - 1;
-                  orS = this.formulas[i].data.length - 1;
+                  if (banderaORS) {
+                    orS = orS + this.formulas[i].data.length - 1;
+                    banderaORS = false; 
+                  }
               } else if (this.formulas[i].outPort[0] == "D") {
-                  entradas = entradas + this.formulas[i].data[z].length;
+                  entradasD = entradasD + this.formulas[i].data[z].length;
                   andD = andD + this.formulas[i].data[z].length - 1;
-                  orD = this.formulas[i].data.length - 1;
-
+                  if (banderaORD){
+                    orD = orD + this.formulas[i].data.length - 1;
+                    banderaORD = false;
+                  }
               }
           }
       }
-      console.log(entradas);
+      //console.log(entradas);
 
-      console.log(orD);
-      console.log(orS);
-      console.log(andD);
-      console.log(andS);
+ //      console.log(orD);
+    //   console.log(orS);
+       //console.log(andD);
+       //console.log(andS);
 
       //console.log(and);
       var arr = [];
       //  console.log(this.inputBits.length);
-      for (var _i = 0; _i < entradas; _i++) {
+      for (var _i = 0; _i < entradasD; _i++) {
           arr.push({
               category: "input",
               key: ("E" + _i),
@@ -540,6 +550,17 @@ cloneOutput(c: Output): Output {
               text: ("E" + _i)
           });
       }
+      console.log('entradasS',entradasS)
+
+      for (var _i = 0; _i < entradasS; _i++) {
+          arr.push({
+              category: "output",
+              key: ("E" + _i),
+              loc: +"50" + " " + (-500 + (_i * 30)).toString(),
+              text: ("E" + _i)
+          });
+      }
+      
 
       for (var _i = 0; _i < this.stateBits.length; _i++) {
           arr.push({
@@ -583,6 +604,7 @@ cloneOutput(c: Output): Output {
               loc: +"200" + " " + (-500 + (_i * 50)).toString()
           });
       }
+      console.log('orD',orD);
       for (var _i = 0; _i < orD; _i++) {
         console.log('entro ord',)
           arr.push({
@@ -592,7 +614,6 @@ cloneOutput(c: Output): Output {
           });
       }
 
-debugger;
       this.model.nodeDataArray = arr;
       //this.model.linkDataArray =[];
       var bandera = true;
@@ -600,55 +621,67 @@ debugger;
 
       var linkArray = [];
       this.model.linkDataArray = [];
+      var totalEntradas = 0;
       for (var i = 0; i < this.formulas.length; i++) {
           let formula = this.formulas[i];
-          console.log(formula);
+          console.log(formula.outPort[0]);
           if (formula.data.length > 0) {
               for (var j = 0; j < formula.data.length; j++) {
-                  console.log('formula.data[j].length;',formula.data[j].length);
-                  for (var z = 0; z < (formula.data[j].length)/3; z++) {
-                      console.log('aaa');
-
+                   //console.log('((formula.data[j].length/3)+totalEntradas)',((formula.data[j].length/3)+totalEntradas));
+                 // console.log('((formula.data)',formula.data);
+                 //  console.log('totalEntradas',totalEntradas);
+                  for (var z = totalEntradas; z <((formula.data[j].length/3)+totalEntradas); z++) {
                       linkArray.push({
-                          from: "E"+(z*3).toString(),
+                          from: "E"+(z).toString(),
                           fromPort: "out",
-                          to: "AD"+z.toString(),
+                          to: "AD"+(z-(z/3)).toString(), 
                           toPort: "in1"
                       });
                       linkArray.push({
-                          from: "E"+(z*3+1).toString(),
+                          from: "E"+(z+1).toString(),
                           fromPort: "out",
-                          to: "AD"+z.toString(),
+                          to: "AD"+(z-(z/3)).toString(),
                           toPort: "in2"
                       });
                       linkArray.push({
-                          from: "E"+(z*3+2).toString(),
+                          from: "E"+(z+2).toString(),
                           fromPort: "out",
-                          to: "AD"+(z+1).toString(),
+                          to: "AD"+((z+1)-(z/3)).toString(),
                           toPort: "in2"
                       });
                       linkArray.push({
-                          from: "AD"+z,
+                          from: "AD"+(z-(z/3)),
                           fromPort: "out",
-                          to: "AD"+(z+1).toString(),
+                          to: "AD"+((z+1)-(z/3)).toString(),
                           toPort: "in1"
                       });
+                      console.log('formula.data.length',formula.data.length);
+                      console.log('z',z);
+                      console.log('totalEntradas',totalEntradas);
+                        if (formula.data.length > totalEntradas) {
+                          console.log('entro al largo');
+                          linkArray.push({
+                            from: "AD1",
+                            fromPort: "out",
+                            to: "ORD0",
+                            toPort: "in1"
+                          });
+                          linkArray.push({
+                            from: "AD2",
+                            fromPort: "out",
+                            to: "ORD0",
+                            toPort: "in"
+                          });
 
 
 
-                      /*     this.model.linkDataArray = [
-       {from:"E0", fromPort:"out", to:"AD0", toPort:"in1"},
-     ];*/
 
-                      //aca van los or
+
+                        
+                      }
                   }
-
-                  //{from:"input1", fromPort:"out", to:"and0", toPort:"in2"},
+                  totalEntradas =totalEntradas+ formula.data[j].length;
               }
-
-              //  console.log(formula.data);
-
-
           }
 
       }
