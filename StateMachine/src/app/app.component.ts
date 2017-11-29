@@ -495,54 +495,173 @@ cloneOutput(c: Output): Output {
   }
 
   draw() {
-    this.model.nodeDataArray = [];
+      this.model.nodeDataArray = [];
 
-    console.log(this.formulas.length);
-    var or = 0;
-    var and = 0;
-    for (var i = 0; this.formulas.length < i; i++) {
-        console.log(this.formulas[i]);
+      // console.log(this.formulas.length);
+      var orS = 0;
+      var orD = 0;
+      var andS = 0;
+      var andD = 0;
+      var entradas = 0;
+      console.log(this.formulas.length)
+      for (var i = 0; i < this.formulas.length; i++) {
+          for (var z = 0; z < this.formulas[i].data.length; z++) {
+              console.log(this.formulas[i].data);
+              //console.log(this.formulas[i])
 
-      if (this.stringFormulas[i] != null) {
-          and += this.stringFormulas[i][0].length;
-          or += this.stringFormulas[i].length;
+              //        console.log(this.formulas[i].data[0])
+              //      console.log(this.formulas[i].outPort[0])
+              if (this.formulas[i].outPort[0] == "S") {
+                  andS = andS + this.formulas[i].data[z].length - 1;
+                  orS = this.formulas[i].data.length - 1;
+              } else if (this.formulas[i].outPort[0] == "D") {
+                  entradas = entradas + this.formulas[i].data[z].length;
+                  andD = andD + this.formulas[i].data[z].length - 1;
+                  orD = this.formulas[i].data.length - 1;
+
+              }
+          }
       }
-    }
-            console.log(or);
+      console.log(entradas);
 
-        console.log(and);
-    var arr = [];
-    for (var _i = 0; _i < this.inputBits.length; _i++) {
-      arr.push({category:"input", key:("E"+_i), loc: +"-500"+ " " + (-500 +(_i*30)).toString(),  text: ("E"+_i)});
-    }
+      console.log(orD);
+      console.log(orS);
+      console.log(andD);
+      console.log(andS);
 
-    for (var _i = 0; _i < this.stateBits.length; _i++) {
-      arr.push({category:"flipflop", key:("D"+_i), loc: +"-200"+ " " + (-500 +(_i*150)).toString(),  text: ("D"+_i)});
-    }
+      //console.log(and);
+      var arr = [];
+      //  console.log(this.inputBits.length);
+      for (var _i = 0; _i < entradas; _i++) {
+          arr.push({
+              category: "input",
+              key: ("E" + _i),
+              loc: +"-500" + " " + (-500 + (_i * 30)).toString(),
+              text: ("E" + _i)
+          });
+      }
 
-    //for (var _i = 0; _i < this.stateBits.length; _i++) {
-      arr.push({category:"input", key:("C"), loc: +"-50"+ " " + (-500 +(250)).toString(),  text: ("CLK")});
-    //}
+      for (var _i = 0; _i < this.stateBits.length; _i++) {
+          arr.push({
+              category: "flipflop",
+              key: ("D" + _i),
+              loc: +"-200" + " " + (-500 + (_i * 150)).toString(),
+              text: ("D" + _i)
+          });
+      }
 
-    // for (var _i = 0; _i < 2; _i++) {
-    //   arr.push({category:"and", key:"and" + _i, loc: +"-400"+ " " + (-500 +(_i*50)).toString()});
-    // }
+      //for (var _i = 0; _i < this.stateBits.length; _i++) {
+      arr.push({
+          category: "input",
+          key: ("C"),
+          loc: +"-50" + " " + (-500 + (250)).toString(),
+          text: ("CLK")
+      });
+      //}
 
-    // for (var _i = 0; _i < 1; _i++) {
-    //   arr.push({category:"or", key:"or" + _i, loc: +"-300"+ " " + (-500 +(_i*50)).toString()});
-    // }
+      for (var _i = 0; _i < andD; _i++) {
+          arr.push({
+              category: "and",
+              key: ("AD" + _i),
+              loc: +"-400" + " " + (-350 + (_i * 50)).toString()
+          });
+      }
+
+      for (var _i = 0; _i < andS; _i++) {
+          arr.push({
+              category: "and",
+              key: ("AS" + _i),
+              loc: +"100" + " " + (-350 + (_i * 50)).toString()
+          });
+      }
 
 
-     this.model.nodeDataArray = arr;
-     this.model.linkDataArray =[];
-    // this.model.linkDataArray = [
-    // {from:"input1", fromPort:"out", to:"and0", toPort:"in2"},
-    // {from:"input2", fromPort:"out", to:"and1", toPort:"in1"},
-    // {from:"input3", fromPort:"out", to:"and0", toPort:"in1"},
-    // {from:"input4", fromPort:"out", to:"and1", toPort:"in2"},
-    // {from:"and0", fromPort:"out", to:"or0", toPort:"in1"},
-    // {from:"and1", fromPort:"out", to:"or0", toPort:"in2"},
-    // ];
+      for (var _i = 0; _i < orS; _i++) {
+          arr.push({
+              category: "or",
+              key: ("ORS" + _i),
+              loc: +"200" + " " + (-500 + (_i * 50)).toString()
+          });
+      }
+      for (var _i = 0; _i < orD; _i++) {
+        console.log('entro ord',)
+          arr.push({
+              category: "or",
+              key: ("ORD" + _i),
+              loc: +"-300" + " " + (-500 + (_i * 50)).toString()
+          });
+      }
+
+
+      this.model.nodeDataArray = arr;
+      //this.model.linkDataArray =[];
+      var bandera = true;
+      //this.stringFormulas = [];
+      this.model.linkDataArray = [];
+      for (var i = 0; i < this.formulas.length; i++) {
+          let formula = this.formulas[i];
+          console.log(formula);
+          if (formula.data.length > 0) {
+              for (var j = 0; j < formula.data.length; j++) {
+                  console.log('formula.data[j].length;',formula.data[j].length);
+                  for (var z = 0; z < (formula.data[j].length)/3; z++) {
+                      console.log('aaa');
+
+                      this.model.linkDataArray.push({
+                          from: "E"+(z*3),
+                          fromPort: "out",
+                          to: "AD"+z,
+                          toPort: "in1"
+                      });
+                      this.model.linkDataArray.push({
+                          from: "E"+(z*3+1),
+                          fromPort: "out",
+                          to: "AD"+z,
+                          toPort: "in2"
+                      });
+                      this.model.linkDataArray.push({
+                          from: "E"+(z*3+2),
+                          fromPort: "out",
+                          to: "AD"+(z+1),
+                          toPort: "in2"
+                      });
+                      this.model.linkDataArray.push({
+                          from: "AD"+z,
+                          fromPort: "out",
+                          to: "AD"+(z+1),
+                          toPort: "in1"
+                      });
+
+
+
+                      /*     this.model.linkDataArray = [
+       {from:"E0", fromPort:"out", to:"AD0", toPort:"in1"},
+     ];*/
+
+                      //aca van los or
+                  }
+
+                  //{from:"input1", fromPort:"out", to:"and0", toPort:"in2"},
+              }
+
+              //  console.log(formula.data);
+
+
+          }
+
+      }
+      //   console.log(this.model.linkDataArray)
+
+
+      //this.model.linkDataArray = [
+      //{from:"E0", fromPort:"out", to:"AD0", toPort:"in1"},
+      //  {from:"E1", fromPort:"out", to:"AD0", toPort:"in2"},
+      // {from:"input3", fromPort:"out", to:"and0", toPort:"in1"},
+      // {from:"input4", fromPort:"out", to:"and1", toPort:"in2"},
+      // {from:"and0", fromPort:"out", to:"or0", toPort:"in1"},
+      // {from:"and1", fromPort:"out", to:"or0", toPort:"in2"},
+      //];
+      //console.log(this.model.linkDataArray)
   }
 
   onCommitDetails() {
