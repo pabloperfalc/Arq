@@ -299,48 +299,63 @@ cloneOutput(c: Output): Output {
    
   }
 
+  showStatesInput(){
+    this.showDataEntry = true;
+    this.inputBits = [];
+    this.outputBits = [];
+    this.stateBits = [];
+    this.stateChangesShow=[];
+    this.stateChanges =[];
+    this.stringFormulas=[];
+    this.model.nodeDataArray = [];
+    this.model.linkDataArray = [];
+    this.modelStateMachine.nodeDataArray = [];
+    this.modelStateMachine.linkDataArray = [];
+    
+  }
+
   public formulas:Formula[];
   public stringFormulas:string[];
 
   drawCircuit(){
 
     //Borrar
-    debugger;
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est1";
-    this.stateChange.input = "Ent1";
-    this.stateChange.nextState = "Est2";
-    this.stateChange.output = "Sal2";
+    // debugger;
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est1";
+    // this.stateChange.input = "Ent1";
+    // this.stateChange.nextState = "Est2";
+    // this.stateChange.output = "Sal2";
 
-    this.saveStateChange();
+    // this.saveStateChange();
 
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est2";
-    this.stateChange.input = "Ent2";
-    this.stateChange.nextState = "Est3";
-    this.stateChange.output = "Sal2";
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est2";
+    // this.stateChange.input = "Ent2";
+    // this.stateChange.nextState = "Est3";
+    // this.stateChange.output = "Sal2";
 
-    this.saveStateChange();
+    // this.saveStateChange();
 
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est3";
-    this.stateChange.input = "Ent1";
-    this.stateChange.nextState = "Est4";
-    this.stateChange.output = "Sal1";
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est3";
+    // this.stateChange.input = "Ent1";
+    // this.stateChange.nextState = "Est4";
+    // this.stateChange.output = "Sal1";
 
-    this.saveStateChange();    
+    // this.saveStateChange();    
 
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est4";
-    this.stateChange.input = "Ent2";
-    this.stateChange.nextState = "Est1";
-    this.stateChange.output = "Sal2";
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est4";
+    // this.stateChange.input = "Ent2";
+    // this.stateChange.nextState = "Est1";
+    // this.stateChange.output = "Sal2";
 
-    this.saveStateChange();
+    // this.saveStateChange();
 
     //borrrar
 
