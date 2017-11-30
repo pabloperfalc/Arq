@@ -8,7 +8,7 @@ import { Input } from './Input';
 import { Output } from './Output';
 import { Formula } from './Formula';
 import { Text } from '@angular/compiler/src/i18n/i18n_ast';
-import { and } from '@angular/router/src/utils/collection';
+import { and, forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -552,13 +552,13 @@ cloneOutput(c: Output): Output {
       });
       linkArr.push({
           from: this.getItem(ant),
-          fromPort: "out",
+          fromPort:  this.getOutPort(item),
           to: category+outPort+ant+item,
           toPort: "in1"
       });
       linkArr.push({
         from: this.getItem(item),
-        fromPort: "out",
+        fromPort: this.getOutPort(item),
         to: category+outPort+ant+item,
         toPort: "in2"
       });
@@ -578,15 +578,36 @@ cloneOutput(c: Output): Output {
 
   getItem(item:string):string
   {
-    var ret=item;
-    if(item[0]=="!")
-      ret = ret.substring(1);
-
-    if(ret[0]=="Q")
+    debugger;
+    let ret = item;
+    if(item[0]=="Q") 
       ret = "D"+ret[1];
+    else if (item[0]=="!" && item[1]=="Q")
+      ret = "D"+ret[2];
     return ret;
   }
-  
+
+  getOutPort(item:string):string
+  {
+    debugger;
+    if (item[0]=="!" && item[1]=="Q")
+      return "nout";
+    return "out"
+  }
+
+  findItem(inItem:string)
+  {
+    for(let formula of this.formulas) {
+      for(let arr of formula.data){
+        for(let item of arr){
+          if(item == inItem)
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   draw2(){
     this.model.nodeDataArray = [];
     this.model.linkDataArray = [];
@@ -600,6 +621,21 @@ cloneOutput(c: Output): Output {
           loc: +"-500" + " " + (-500 + (_i * 30)).toString(),
           text: ("E" + _i)
       });
+      if(this.findItem("!E" + _i))
+      {
+        nodeArr.push({
+          category: "not",
+          key: ("!E" + _i),
+          loc: +"-460" + " " + (-500 + (_i * 30)).toString(),
+        });
+
+        linkArr.push({
+          from: ("E" + _i),
+          fromPort: "out",
+          to: ("!E" + _i),
+          toPort: "in"
+        });
+      }
     }
 
     for (var _i = 0; _i < this.inputBits.length; _i++) {
