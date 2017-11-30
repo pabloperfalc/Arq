@@ -279,9 +279,12 @@ cloneOutput(c: Output): Output {
 
   showStatesChangesInput(){
     this.showDataEntry = false;
-    this.inputBits = (this.inputs.length - 1).toString(2).split('');
-    this.outputBits = (this.outputs.length - 1).toString(2).split('');
-    this.stateBits = (this.states.length - 1).toString(2).split('');
+    if(this.inputs.length > 0)
+      this.inputBits = (this.inputs.length - 1).toString(2).split('');
+    if(this.outputs.length > 0)
+      this.outputBits = (this.outputs.length - 1).toString(2).split('');
+    if(this.states.length > 0)
+      this.stateBits = (this.states.length - 1).toString(2).split('');
     this.stateChangesShow = [];
     for (var i = 0; i < 2**this.stateBits.length; i++)
     {

@@ -102,8 +102,7 @@
       </div>
     </div>
     <div class="row" *ngIf="showDataEntry">
-      <div class="col-7"></div>
-      <div class="col-3">
+      <div class="col-12" align="center">
         <button class="btn btn-primary" (click)="showStatesChangesInput()" style="margin-top:10px">Crear Maquina de estados</button>
       </div>
     </div>
@@ -111,6 +110,7 @@
       <div class="col-2">
       </div>
       <div class="col-8">
+          <button class="btn btn-primary" (click)="showStatesInput()" style="margin:10px">Volver</button>
         <!-- State changes -->
         <p-dataTable [value]="stateChanges" selectionMode="single" [(selection)]="selectedStateChange" (onRowSelect)="onRowSelect($event)"
           [responsive]="true">
@@ -121,7 +121,7 @@
           <p-column field="output" header="Salida"></p-column>
           <p-footer>
             <div class="ui-helper-clearfix" style="width:100%">
-              <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddStateChange()" label="Agregar"></button>
+              <button type="button" pButton icon="fa-plus" style="float:right" (click)="showDialogToAddStateChange()" label="Agregar"></button>
             </div>
           </p-footer>
         </p-dataTable>
@@ -178,7 +178,6 @@
       </div>
       <div class="col-8">
         <div class="row">
-            <button class="btn btn-primary" (click)="showStatesInput()" style="margin:10px">Volver</button>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
