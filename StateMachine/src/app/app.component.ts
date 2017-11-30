@@ -325,48 +325,45 @@ cloneOutput(c: Output): Output {
   public formulas:Formula[];
   public stringFormulas:string[];
 
+  drawSampleCircuit(){
+     this.newStateChange = true;
+     this.stateChange = new StateChange();
+     this.stateChange.state = "Est1";
+     this.stateChange.input = "Ent1";
+     this.stateChange.nextState = "Est2";
+     this.stateChange.output = "Sal2";
+ 
+     this.saveStateChange();
+ 
+     this.newStateChange = true;
+     this.stateChange = new StateChange();
+     this.stateChange.state = "Est2";
+     this.stateChange.input = "Ent2";
+     this.stateChange.nextState = "Est3";
+     this.stateChange.output = "Sal2";
+ 
+     this.saveStateChange();
+ 
+     this.newStateChange = true;
+     this.stateChange = new StateChange();
+     this.stateChange.state = "Est3";
+     this.stateChange.input = "Ent1";
+     this.stateChange.nextState = "Est4";
+     this.stateChange.output = "Sal1";
+ 
+     this.saveStateChange();    
+ 
+     this.newStateChange = true;
+     this.stateChange = new StateChange();
+     this.stateChange.state = "Est4";
+     this.stateChange.input = "Ent2";
+     this.stateChange.nextState = "Est1";
+     this.stateChange.output = "Sal2";
+ 
+     this.saveStateChange();
+  }
+
   drawCircuit(){
-
-    //Borrar
-    debugger;
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est1";
-    this.stateChange.input = "Ent1";
-    this.stateChange.nextState = "Est2";
-    this.stateChange.output = "Sal2";
-
-    this.saveStateChange();
-
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est2";
-    this.stateChange.input = "Ent2";
-    this.stateChange.nextState = "Est3";
-    this.stateChange.output = "Sal2";
-
-    this.saveStateChange();
-
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est3";
-    this.stateChange.input = "Ent1";
-    this.stateChange.nextState = "Est4";
-    this.stateChange.output = "Sal1";
-
-    this.saveStateChange();    
-
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est4";
-    this.stateChange.input = "Ent2";
-    this.stateChange.nextState = "Est1";
-    this.stateChange.output = "Sal2";
-
-    this.saveStateChange();
-
-    //borrrar
-
 
     this.formulas = [];
     this.stringFormulas =[];

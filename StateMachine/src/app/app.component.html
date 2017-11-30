@@ -220,13 +220,12 @@
           <span>* Asumimos todos los don't care (X) como cero ya que se usa la primer forma canonica</span>
         </div>
         <div class="row">
-          <div class="col-3">
+          <div class="col-12">
             <button (click)="drawStateMachine()" class="btn btn-primary" style="margin-top:10px">Dibujar maquina de estados</button>
-          </div>
-          <div class="col-9">
             <button (click)="drawCircuit()" class="btn btn-primary" style="margin-top:10px">Dibujar circuito</button>
+            <button (click)="drawSampleCircuit()" class="btn btn-primary" style="margin-top:10px">Cargar maquina de ejemplo</button>
           </div>
-          </div>
+        </div>
         <div class="row" *ngIf="stringFormulas?.length > 0" style="margin-top:10px">
             <div class="col-12">
                 <div class="list-group">
