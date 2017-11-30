@@ -26,8 +26,9 @@ export class DiagramEditorComponent implements OnInit {
     const $ = go.GraphObject.make;
     this.diagram = new go.Diagram();
     this.diagram.initialContentAlignment = go.Spot.Center;
-    this.diagram.allowDrop = true;  // necessary for dragging from Palette
+    this.diagram.allowDrop = false;  // necessary for dragging from Palette
     this.diagram.undoManager.isEnabled = true;
+    this.diagram.allowLink = false;
     this.diagram.addDiagramListener("ChangedSelection",
         e => {
           const node = e.diagram.selection.first();

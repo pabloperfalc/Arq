@@ -305,42 +305,42 @@ cloneOutput(c: Output): Output {
   drawCircuit(){
 
     //Borrar
-    // debugger;
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est1";
-    // this.stateChange.input = "Ent1";
-    // this.stateChange.nextState = "Est2";
-    // this.stateChange.output = "Sal2";
+    debugger;
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est1";
+    this.stateChange.input = "Ent1";
+    this.stateChange.nextState = "Est2";
+    this.stateChange.output = "Sal2";
 
-    // this.saveStateChange();
+    this.saveStateChange();
 
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est2";
-    // this.stateChange.input = "Ent2";
-    // this.stateChange.nextState = "Est3";
-    // this.stateChange.output = "Sal2";
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est2";
+    this.stateChange.input = "Ent2";
+    this.stateChange.nextState = "Est3";
+    this.stateChange.output = "Sal2";
 
-    // this.saveStateChange();
+    this.saveStateChange();
 
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est3";
-    // this.stateChange.input = "Ent1";
-    // this.stateChange.nextState = "Est4";
-    // this.stateChange.output = "Sal1";
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est3";
+    this.stateChange.input = "Ent1";
+    this.stateChange.nextState = "Est4";
+    this.stateChange.output = "Sal1";
 
-    // this.saveStateChange();    
+    this.saveStateChange();    
 
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est4";
-    // this.stateChange.input = "Ent2";
-    // this.stateChange.nextState = "Est1";
-    // this.stateChange.output = "Sal2";
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est4";
+    this.stateChange.input = "Ent2";
+    this.stateChange.nextState = "Est1";
+    this.stateChange.output = "Sal2";
 
-    // this.saveStateChange();
+    this.saveStateChange();
 
     //borrrar
 
@@ -422,6 +422,8 @@ cloneOutput(c: Output): Output {
       }
       this.stringFormulas[i] = this.stringFormulas[i].slice(0, -1);
     }
+
+    this.draw2();
   }
 
 
@@ -554,7 +556,7 @@ cloneOutput(c: Output): Output {
       });
       linkArr.push({
           from: this.getItem(ant),
-          fromPort:  this.getOutPort(item),
+          fromPort:  this.getOutPort(ant),
           to: key,
           toPort: "in1"
       });
@@ -565,7 +567,7 @@ cloneOutput(c: Output): Output {
         toPort: "in2"
       });
       ands.push(key);
-      posY = posY + 60;
+      posY = posY + 80;
       k=k+2;
     }
     if(k==items.length){
@@ -613,6 +615,7 @@ cloneOutput(c: Output): Output {
   unique=0;
 
   draw2(){
+    this.unique = 0;
     this.model.nodeDataArray = [];
     this.model.linkDataArray = [];
     var nodeArr = [];
@@ -685,7 +688,6 @@ cloneOutput(c: Output): Output {
         let posyAnds = posYS;
         let ands = [];
         for (var j = 0; j < formula.data.length; j++){
-         // formula.data[j].push("E2");
           ands.push(this.drawAndOrs(formula.data[j], formula.outPort, posX, posyAnds, nodeArr, linkArr, "and"));
           posyAnds = posyAnds + 70;
         }

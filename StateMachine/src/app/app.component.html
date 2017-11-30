@@ -223,7 +223,7 @@
             <button (click)="drawStateMachine()" class="btn btn-primary" style="margin-top:10px">Dibujar maquina de estados</button>
           </div>
           <div class="col-9">
-            <button (click)="drawCircuit()" class="btn btn-primary" style="margin-top:10px">Mostrar Formas canonicas</button>
+            <button (click)="drawCircuit()" class="btn btn-primary" style="margin-top:10px">Dibujar circuito</button>
           </div>
           </div>
         <div class="row" *ngIf="stringFormulas?.length > 0" style="margin-top:10px">
@@ -234,6 +234,12 @@
                       <li class="list-group-item">{{item}}</li>
                     </ng-template>
                 </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="stringFormulas?.length > 0" style="margin-top:10px">
+            <div class="col-12">
+            <app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
+              </app-diagram-editor>
             </div>
         </div>
         <div class="row" *ngIf="modelStateMachine?.nodeDataArray?.length > 0" style="margin-top:10px" >
@@ -247,10 +253,9 @@
     </div>
     <div class="row" style="margin-top:30px">
       <div class="col-12">
-        <button class="btn btn-primary" (click)="draw()">Diagrama</button>
-        <button class="btn btn-primary" (click)="draw2()">Diagrama Pablo</button>
+        <!-- <button class="btn btn-primary" (click)="draw2()">Diagrama Pablo</button>
         <app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
-          </app-diagram-editor>
+          </app-diagram-editor> -->
 
         <form *ngIf="node" #form="ngForm" (ngSubmit)="onCommitDetails()">
           Node Details:
