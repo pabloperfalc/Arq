@@ -253,11 +253,8 @@
       </div>
     </div>
     <div class="row" style="margin-top:30px">
-      <div class="col-12">
-        <!-- <button class="btn btn-primary" (click)="draw2()">Diagrama Pablo</button>
-        <app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
-          </app-diagram-editor> -->
-
+      <button class="btn btn-primary" (click)="showDebug()" style="margin:10px">DEBUG</button>
+      <div class="col-12" *ngIf="debug">
         <form *ngIf="node" #form="ngForm" (ngSubmit)="onCommitDetails()">
           Node Details:
           <div>

@@ -36,23 +36,6 @@ export class DiagramEditorComponent implements OnInit {
         });
     this.diagram.addModelChangedListener(e => e.isTransactionFinished && this.modelChanged.emit(e));
 
-    // this.diagram.nodeTemplate =
-    //   $(go.Node, "Auto",
-    //     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-    //     $(go.Shape,
-    //       {
-    //         fill: "white", strokeWidth: 0,
-    //         portId: "", cursor: "pointer",
-    //         // allow many kinds of links
-    //         fromLinkable: true, toLinkable: true,
-    //         fromLinkableSelfNode: true, toLinkableSelfNode: true,
-    //         fromLinkableDuplicates: true, toLinkableDuplicates: true
-    //       },
-    //       new go.Binding("fill", "color")),
-    //     $(go.TextBlock,
-    //       { margin: 8, editable: true },
-    //       new go.Binding("text").makeTwoWay())
-    //   );
 
       this.diagram.linkTemplate =
       $(go.Link,

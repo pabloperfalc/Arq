@@ -314,48 +314,56 @@ cloneOutput(c: Output): Output {
     
   }
 
+  public debug = false;
+  showDebug(){
+    if(this.debug)
+      this.debug = false;
+    else
+      this.debug = true;
+  }
+
   public formulas:Formula[];
   public stringFormulas:string[];
 
   drawCircuit(){
 
     //Borrar
-    // debugger;
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est1";
-    // this.stateChange.input = "Ent1";
-    // this.stateChange.nextState = "Est2";
-    // this.stateChange.output = "Sal2";
+    debugger;
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est1";
+    this.stateChange.input = "Ent1";
+    this.stateChange.nextState = "Est2";
+    this.stateChange.output = "Sal2";
 
-    // this.saveStateChange();
+    this.saveStateChange();
 
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est2";
-    // this.stateChange.input = "Ent2";
-    // this.stateChange.nextState = "Est3";
-    // this.stateChange.output = "Sal2";
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est2";
+    this.stateChange.input = "Ent2";
+    this.stateChange.nextState = "Est3";
+    this.stateChange.output = "Sal2";
 
-    // this.saveStateChange();
+    this.saveStateChange();
 
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est3";
-    // this.stateChange.input = "Ent1";
-    // this.stateChange.nextState = "Est4";
-    // this.stateChange.output = "Sal1";
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est3";
+    this.stateChange.input = "Ent1";
+    this.stateChange.nextState = "Est4";
+    this.stateChange.output = "Sal1";
 
-    // this.saveStateChange();    
+    this.saveStateChange();    
 
-    // this.newStateChange = true;
-    // this.stateChange = new StateChange();
-    // this.stateChange.state = "Est4";
-    // this.stateChange.input = "Ent2";
-    // this.stateChange.nextState = "Est1";
-    // this.stateChange.output = "Sal2";
+    this.newStateChange = true;
+    this.stateChange = new StateChange();
+    this.stateChange.state = "Est4";
+    this.stateChange.input = "Ent2";
+    this.stateChange.nextState = "Est1";
+    this.stateChange.output = "Sal2";
 
-    // this.saveStateChange();
+    this.saveStateChange();
 
     //borrrar
 
@@ -486,49 +494,9 @@ cloneOutput(c: Output): Output {
         {label:'Sal2', value:'Sal2'},
     ];
 
-    this.modelStateMachine =new go.GraphLinksModel([],[]);
-    // this.modelStateMachine = new go.GraphLinksModel([
-    //     { key: 0, loc: "120 120", text: "Initial" },
-    //     { key: 1, loc: "330 120", text: "First down" },
-    //     { key: 2, loc: "226 376", text: "First up" },
-    //     { key: 3, loc: "60 276", text: "Second down" },
-    //     { key: 4, loc: "226 226", text: "Wait" }
-    //   ],[
-    //     { from: 0, to: 0, text: "up or timer", curviness: -20 },
-    //     { from: 0, to: 1, text: "down", curviness: 20 },
-    //     { from: 1, to: 0, text: "up (moved)\nPOST", curviness: 20 },
-    //     { from: 1, to: 1, text: "down", curviness: -20 },
-    //     { from: 1, to: 2, text: "up (no move)" },
-    //     { from: 1, to: 4, text: "timer" },
-    //     { from: 2, to: 0, text: "timer\nPOST" },
-    //     { from: 2, to: 3, text: "down" },
-    //     { from: 3, to: 0, text: "up\nPOST\n(dblclick\nif no move)" },
-    //     { from: 3, to: 3, text: "down or timer", curviness: 20 },
-    //     { from: 4, to: 0, text: "up\nPOST" },
-    //     { from: 4, to: 4, text: "down" }
-    //   ]
-    //  );
-
-     
-    this.model = new go.GraphLinksModel(
-    [
-      {category:"input", key:"input1", loc:"-150 -80", text:"A" },
-      {category:"or", key:"or1", loc:"-70 0" },
-      {category:"not", key:"not1", loc:"10 0" },
-      {category:"xor", key:"xor1", loc:"100 0" },
-      {category:"or", key:"or2", loc:"200 0" },
-      {category:"output", key:"output1",text:"sal", loc:"200 -100" },
-      {category:"flipflop", text:"test", key:"flipflop", loc:"-200 -100" }
-    ],
-    [
-      {from:"input1", fromPort:"out", to:"or1", toPort:"in1"},
-      {from:"or1", fromPort:"out", to:"flipflop", toPort:"in"},
-      {from:"not1", fromPort:"out", to:"or1", toPort:"in2"},
-      {from:"not1", fromPort:"out", to:"xor1", toPort:"in1"},
-      {from:"xor1", fromPort:"out", to:"or2", toPort:"in1"},
-      {from:"or2", fromPort:"out", to:"xor1", toPort:"in2"},
-      {from:"xor1", fromPort:"out", to:"output1", toPort:""}
-    ]);
+    this.modelStateMachine = new go.GraphLinksModel([],[]);
+    this.model = new go.GraphLinksModel([],[]);
+    
     this.model.linkFromPortIdProperty = "fromPort";
     this.model.linkToPortIdProperty = "toPort";
   }
@@ -741,215 +709,7 @@ cloneOutput(c: Output): Output {
     this.model.nodeDataArray = nodeArr;
     this.model.linkDataArray = linkArr;
   }
-  draw() {
-
-    this.model.nodeDataArray = [];
-      
-
-      // console.log(this.formulas.length);
-      var orS = 0;
-      var orD = 0;
-      var andS = 0;
-      var andD = 0;
-      var entradasD = 0;
-      var entradasS = 0;
-     // console.log(this.formulas.length)
-      for (var i = 0; i < this.formulas.length; i++) {
-        var banderaORD = true;
-        var banderaORS = true;
-
-          for (var z = 0; z < this.formulas[i].data.length; z++) {
-              // console.log(this.formulas[i].data);
-              //console.log(this.formulas[i])
-
-              //        console.log(this.formulas[i].data[0])
-              //      console.log(this.formulas[i].outPort[0])
-              if (this.formulas[i].outPort[0] == "S") {
-                  entradasS = entradasS + this.formulas[i].data[z].length;   
-                  andS = andS + this.formulas[i].data[z].length - 1;
-                  if (banderaORS) {
-                    orS = orS + this.formulas[i].data.length - 1;
-                    banderaORS = false; 
-                  }
-              } else if (this.formulas[i].outPort[0] == "D") {
-                  entradasD = entradasD + this.formulas[i].data[z].length;
-                  andD = andD + this.formulas[i].data[z].length - 1;
-                  if (banderaORD){
-                    orD = orD + this.formulas[i].data.length - 1;
-                    banderaORD = false;
-                  }
-              }
-          }
-      }
-      //console.log(entradas);
-
- //      console.log(orD);
-    //   console.log(orS);
-       //console.log(andD);
-       //console.log(andS);
-
-      //console.log(and);
-      var arr = [];
-      //  console.log(this.inputBits.length);
-      for (var _i = 0; _i < entradasD; _i++) {
-          arr.push({
-              category: "input",
-              key: ("E" + _i),
-              loc: +"-500" + " " + (-500 + (_i * 30)).toString(),
-              text: ("E" + _i)
-          });
-      }
-      console.log('entradasS',entradasS)
-
-      for (var _i = 0; _i < entradasS; _i++) {
-          arr.push({
-              category: "output",
-              key: ("E" + _i),
-              loc: +"50" + " " + (-500 + (_i * 30)).toString(),
-              text: ("E" + _i)
-          });
-      }
-      
-
-      for (var _i = 0; _i < this.stateBits.length; _i++) {
-          arr.push({
-              category: "flipflop",
-              key: ("D" + _i),
-              loc: +"-200" + " " + (-500 + (_i * 150)).toString(),
-              text: ("D" + _i)
-          });
-      }
-
-      //for (var _i = 0; _i < this.stateBits.length; _i++) {
-      arr.push({
-          category: "input",
-          key: ("C"),
-          loc: +"-50" + " " + (-500 + (250)).toString(),
-          text: ("CLK")
-      });
-      //}
-
-      for (var _i = 0; _i < andD; _i++) {
-          arr.push({
-              category: "and",
-              key: ("AD" + _i),
-              loc: +"-400" + " " + (-350 + (_i * 50)).toString()
-          });
-      }
-
-      for (var _i = 0; _i < andS; _i++) {
-          arr.push({
-              category: "and",
-              key: ("AS" + _i),
-              loc: +"100" + " " + (-350 + (_i * 50)).toString()
-          });
-      }
-
-
-      for (var _i = 0; _i < orS; _i++) {
-          arr.push({
-              category: "or",
-              key: ("ORS" + _i),
-              loc: +"200" + " " + (-500 + (_i * 50)).toString()
-          });
-      }
-      console.log('orD',orD);
-      for (var _i = 0; _i < orD; _i++) {
-        console.log('entro ord',)
-          arr.push({
-              category: "or",
-              key: ("ORD" + _i),
-              loc: +"-300" + " " + (-500 + (_i * 50)).toString()
-          });
-      }
-
-      this.model.nodeDataArray = arr;
-      //this.model.linkDataArray =[];
-      var bandera = true;
-      //this.stringFormulas = [];
-
-      var linkArray = [];
-      this.model.linkDataArray = [];
-      var totalEntradas = 0;
-      for (var i = 0; i < this.formulas.length; i++) {
-          let formula = this.formulas[i];
-          console.log(formula.outPort[0]);
-          if (formula.data.length > 0) {
-              for (var j = 0; j < formula.data.length; j++) {
-                   //console.log('((formula.data[j].length/3)+totalEntradas)',((formula.data[j].length/3)+totalEntradas));
-                 // console.log('((formula.data)',formula.data);
-                 //  console.log('totalEntradas',totalEntradas);
-                  for (var z = totalEntradas; z <((formula.data[j].length/3)+totalEntradas); z++) {
-                      linkArray.push({
-                          from: "E"+(z).toString(),
-                          fromPort: "out",
-                          to: "AD"+(z-(z/3)).toString(), 
-                          toPort: "in1"
-                      });
-                      linkArray.push({
-                          from: "E"+(z+1).toString(),
-                          fromPort: "out",
-                          to: "AD"+(z-(z/3)).toString(),
-                          toPort: "in2"
-                      });
-                      linkArray.push({
-                          from: "E"+(z+2).toString(),
-                          fromPort: "out",
-                          to: "AD"+((z+1)-(z/3)).toString(),
-                          toPort: "in2"
-                      });
-                      linkArray.push({
-                          from: "AD"+(z-(z/3)),
-                          fromPort: "out",
-                          to: "AD"+((z+1)-(z/3)).toString(),
-                          toPort: "in1"
-                      });
-                      console.log('formula.data.length',formula.data.length);
-                      console.log('z',z);
-                      console.log('totalEntradas',totalEntradas);
-                        if (formula.data.length > totalEntradas) {
-                          console.log('entro al largo');
-                          linkArray.push({
-                            from: "AD1",
-                            fromPort: "out",
-                            to: "ORD0",
-                            toPort: "in1"
-                          });
-                          linkArray.push({
-                            from: "AD2",
-                            fromPort: "out",
-                            to: "ORD0",
-                            toPort: "in"
-                          });
-
-
-
-
-
-                        
-                      }
-                  }
-                  totalEntradas =totalEntradas+ formula.data[j].length;
-              }
-          }
-
-      }
-
-      this.model.linkDataArray = linkArray;
-      //   console.log(this.model.linkDataArray)
-
-
-      //this.model.linkDataArray = [
-      //{from:"E0", fromPort:"out", to:"AD0", toPort:"in1"},
-      //  {from:"E1", fromPort:"out", to:"AD0", toPort:"in2"},
-      // {from:"input3", fromPort:"out", to:"and0", toPort:"in1"},
-      // {from:"input4", fromPort:"out", to:"and1", toPort:"in2"},
-      // {from:"and0", fromPort:"out", to:"or0", toPort:"in1"},
-      // {from:"and1", fromPort:"out", to:"or0", toPort:"in2"},
-      //];
-      //console.log(this.model.linkDataArray)
-   }
-
+  
   onCommitDetails() {
     if (this.node) {
       const model = this.node.diagram.model;
