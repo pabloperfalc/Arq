@@ -8,6 +8,7 @@ import { Input } from './Input';
 import { Output } from './Output';
 import { Formula } from './Formula';
 import { Text } from '@angular/compiler/src/i18n/i18n_ast';
+import { and } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -331,7 +332,7 @@ cloneOutput(c: Output): Output {
     this.stateChange.output = "Sal1";
 
     this.saveStateChange();    
-    
+
     this.newStateChange = true;
     this.stateChange = new StateChange();
     this.stateChange.state = "Est4";
@@ -536,8 +537,144 @@ cloneOutput(c: Output): Output {
     }
   }
 
+  drawAndOrs(items:string[], outPort:string, posX:number, posY:number, nodeArr:any[], linkArr:any[],category:string ):string{
+    debugger;
+    var ands = [];
+    var k = 1;
+    var nextPosY = posY + 20;
+    while( k < items.length){
+      let item = items[k];
+      let ant = items[k-1];
+      nodeArr.push({
+        category: category,
+        key: category+outPort+ant+item,
+        loc: posX + " " + posY.toString(),
+      });
+      linkArr.push({
+          from: this.getItem(ant),
+          fromPort: "out",
+          to: category+outPort+ant+item,
+          toPort: "in1"
+      });
+      linkArr.push({
+        from: this.getItem(item),
+        fromPort: "out",
+        to: category+outPort+ant+item,
+        toPort: "in2"
+      });
+      ands.push(category+outPort+ant+item);
+      posY = posY + 60;
+      k=k+2;
+    }
+    if(k==items.length){
+      ands.push(items[k-1])
+      
+    }
+    if(ands.length>1)
+      return this.drawAndOrs(ands, outPort, posX+60, nextPosY, nodeArr,linkArr, category);
+    else
+      return ands[0];
+  }
+
+  getItem(item:string):string
+  {
+    var ret=item;
+    if(item[0]=="!")
+      ret = ret.substring(1);
+
+    if(ret[0]=="Q")
+      ret = "D"+ret[1];
+    return ret;
+  }
+  
+  draw2(){
+    this.model.nodeDataArray = [];
+    this.model.linkDataArray = [];
+    var nodeArr = [];
+    var linkArr = [];
+
+    for (var _i = 0; _i < this.inputBits.length; _i++) {
+      nodeArr.push({
+          category: "input",
+          key: ("E" + _i),
+          loc: +"-500" + " " + (-500 + (_i * 30)).toString(),
+          text: ("E" + _i)
+      });
+    }
+
+    for (var _i = 0; _i < this.inputBits.length; _i++) {
+      nodeArr.push({
+          category: "output",
+          key: ("S" + _i),
+          loc: +"300" + " " + (-500 + (_i * 30)).toString(),
+          text: ("S" + _i)
+      });
+    }
+
+    for (var _i = 0; _i < this.stateBits.length; _i++) {
+      nodeArr.push({
+            category: "flipflop",
+            key: ("D" + _i),
+            loc: +"-200" + " " + (-500 + (_i * 150)).toString(),
+            text: ("D" + _i)
+        });
+    }
+
+    debugger;
+    let posX= 0;
+    let posYS = -500;
+    let posYD = -500;
+    for (var i = 0; i < this.formulas.length; i++) {
+      let formula = this.formulas[i];
+      
+      if(formula.outPort[0]== "S"){
+        posX = 50;
+        let posyAnds = posYS;
+        let ands = [];
+        for (var j = 0; j < formula.data.length; j++){
+         // formula.data[j].push("E2");
+          ands.push(this.drawAndOrs(formula.data[j], formula.outPort, posX, posyAnds, nodeArr, linkArr, "and"));
+          posyAnds = posyAnds + 70;
+        }
+        var or = this.drawAndOrs(ands, formula.outPort, posX+150, posYS, nodeArr, linkArr, "or");
+        linkArr.push({
+          from: or,
+          fromPort: "out",
+          to: formula.outPort,
+          toPort: "in"
+        });
+
+        posYS = posYS + 200;
+      }
+      else{
+        posX = -400;
+        let ands = [];
+        let posyAnds = posYD;
+        for (var j = 0; j < formula.data.length; j++){
+         // formula.data[j].push("E2");
+          ands.push(this.drawAndOrs(formula.data[j], formula.outPort, posX, posyAnds, nodeArr, linkArr, "and"));
+          posyAnds = posyAnds + 70;
+        }
+        var or = this.drawAndOrs(ands, formula.outPort, posX+150, posYD, nodeArr, linkArr, "or");
+        linkArr.push({
+          from: or,
+          fromPort: "out",
+          to: formula.outPort,
+          toPort: "in"
+        });
+        posYD =posYD + 200;
+      }
+    
+    }
+
+
+    this.model.nodeDataArray = nodeArr;
+    this.model.linkDataArray = linkArr;
+  }
   draw() {
-      this.model.nodeDataArray = [];
+
+    this.model.nodeDataArray = [];
+      
 
       // console.log(this.formulas.length);
       var orS = 0;
@@ -741,7 +878,7 @@ cloneOutput(c: Output): Output {
       // {from:"and1", fromPort:"out", to:"or0", toPort:"in2"},
       //];
       //console.log(this.model.linkDataArray)
-  }
+   }
 
   onCommitDetails() {
     if (this.node) {
