@@ -305,42 +305,42 @@ cloneOutput(c: Output): Output {
   drawCircuit(){
 
     //Borrar
-    debugger;
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est1";
-    this.stateChange.input = "Ent1";
-    this.stateChange.nextState = "Est2";
-    this.stateChange.output = "Sal2";
+    // debugger;
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est1";
+    // this.stateChange.input = "Ent1";
+    // this.stateChange.nextState = "Est2";
+    // this.stateChange.output = "Sal2";
 
-    this.saveStateChange();
+    // this.saveStateChange();
 
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est2";
-    this.stateChange.input = "Ent2";
-    this.stateChange.nextState = "Est3";
-    this.stateChange.output = "Sal2";
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est2";
+    // this.stateChange.input = "Ent2";
+    // this.stateChange.nextState = "Est3";
+    // this.stateChange.output = "Sal2";
 
-    this.saveStateChange();
+    // this.saveStateChange();
 
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est3";
-    this.stateChange.input = "Ent1";
-    this.stateChange.nextState = "Est4";
-    this.stateChange.output = "Sal1";
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est3";
+    // this.stateChange.input = "Ent1";
+    // this.stateChange.nextState = "Est4";
+    // this.stateChange.output = "Sal1";
 
-    this.saveStateChange();    
+    // this.saveStateChange();    
 
-    this.newStateChange = true;
-    this.stateChange = new StateChange();
-    this.stateChange.state = "Est4";
-    this.stateChange.input = "Ent2";
-    this.stateChange.nextState = "Est1";
-    this.stateChange.output = "Sal2";
+    // this.newStateChange = true;
+    // this.stateChange = new StateChange();
+    // this.stateChange.state = "Est4";
+    // this.stateChange.input = "Ent2";
+    // this.stateChange.nextState = "Est1";
+    // this.stateChange.output = "Sal2";
 
-    this.saveStateChange();
+    // this.saveStateChange();
 
     //borrrar
 
@@ -537,6 +537,7 @@ cloneOutput(c: Output): Output {
     }
   }
 
+
   drawAndOrs(items:string[], outPort:string, posX:number, posY:number, nodeArr:any[], linkArr:any[],category:string ):string{
     debugger;
     var ands = [];
@@ -545,24 +546,25 @@ cloneOutput(c: Output): Output {
     while( k < items.length){
       let item = items[k];
       let ant = items[k-1];
+      let key = category+outPort+ant+item+(this.unique++).toString();
       nodeArr.push({
         category: category,
-        key: category+outPort+ant+item,
+        key: key,
         loc: posX + " " + posY.toString(),
       });
       linkArr.push({
           from: this.getItem(ant),
           fromPort:  this.getOutPort(item),
-          to: category+outPort+ant+item,
+          to: key,
           toPort: "in1"
       });
       linkArr.push({
         from: this.getItem(item),
         fromPort: this.getOutPort(item),
-        to: category+outPort+ant+item,
+        to: key,
         toPort: "in2"
       });
-      ands.push(category+outPort+ant+item);
+      ands.push(key);
       posY = posY + 60;
       k=k+2;
     }
@@ -607,6 +609,8 @@ cloneOutput(c: Output): Output {
     }
     return false;
   }
+
+  unique=0;
 
   draw2(){
     this.model.nodeDataArray = [];
