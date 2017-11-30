@@ -614,11 +614,18 @@ cloneOutput(c: Output): Output {
     var nodeArr = [];
     var linkArr = [];
 
+    nodeArr.push({
+      category: "input",
+      key: "CLK",
+      loc: "-500 -500",
+      text: "CLK"
+    });
+
     for (var _i = 0; _i < this.inputBits.length; _i++) {
       nodeArr.push({
           category: "input",
           key: ("E" + _i),
-          loc: +"-500" + " " + (-500 + (_i * 30)).toString(),
+          loc: +"-500" + " " + (-460 + (_i * 40)).toString(),
           text: ("E" + _i)
       });
       if(this.findItem("!E" + _i))
@@ -626,7 +633,7 @@ cloneOutput(c: Output): Output {
         nodeArr.push({
           category: "not",
           key: ("!E" + _i),
-          loc: +"-460" + " " + (-500 + (_i * 30)).toString(),
+          loc: +"-450" + " " + (-440 + (_i * 40)).toString(),
         });
 
         linkArr.push({
@@ -642,7 +649,7 @@ cloneOutput(c: Output): Output {
       nodeArr.push({
           category: "output",
           key: ("S" + _i),
-          loc: +"300" + " " + (-500 + (_i * 30)).toString(),
+          loc: +"400" + " " + (-500 + (_i * 100)).toString(),
           text: ("S" + _i)
       });
     }
@@ -651,12 +658,18 @@ cloneOutput(c: Output): Output {
       nodeArr.push({
             category: "flipflop",
             key: ("D" + _i),
-            loc: +"-200" + " " + (-500 + (_i * 150)).toString(),
+            loc: +"-80" + " " + (-500 + (_i * 200)).toString(),
             text: ("D" + _i)
+        });
+
+        linkArr.push({
+          from: "CLK",
+          fromPort: "out",
+          to: ("D" + _i),
+          toPort: "clock"
         });
     }
 
-    debugger;
     let posX= 0;
     let posYS = -500;
     let posYD = -500;
@@ -664,7 +677,7 @@ cloneOutput(c: Output): Output {
       let formula = this.formulas[i];
       
       if(formula.outPort[0]== "S"){
-        posX = 50;
+        posX = 100;
         let posyAnds = posYS;
         let ands = [];
         for (var j = 0; j < formula.data.length; j++){
@@ -672,7 +685,7 @@ cloneOutput(c: Output): Output {
           ands.push(this.drawAndOrs(formula.data[j], formula.outPort, posX, posyAnds, nodeArr, linkArr, "and"));
           posyAnds = posyAnds + 70;
         }
-        var or = this.drawAndOrs(ands, formula.outPort, posX+150, posYS, nodeArr, linkArr, "or");
+        var or = this.drawAndOrs(ands, formula.outPort, posX+150, posYS+50, nodeArr, linkArr, "or");
         linkArr.push({
           from: or,
           fromPort: "out",
@@ -683,7 +696,7 @@ cloneOutput(c: Output): Output {
         posYS = posYS + 200;
       }
       else{
-        posX = -400;
+        posX = -350;
         let ands = [];
         let posyAnds = posYD;
         for (var j = 0; j < formula.data.length; j++){
@@ -691,7 +704,7 @@ cloneOutput(c: Output): Output {
           ands.push(this.drawAndOrs(formula.data[j], formula.outPort, posX, posyAnds, nodeArr, linkArr, "and"));
           posyAnds = posyAnds + 70;
         }
-        var or = this.drawAndOrs(ands, formula.outPort, posX+150, posYD, nodeArr, linkArr, "or");
+        var or = this.drawAndOrs(ands, formula.outPort, posX+150, posYD+50, nodeArr, linkArr, "or");
         linkArr.push({
           from: or,
           fromPort: "out",
